@@ -1,0 +1,164 @@
+<div class="onboarding-container">
+  <!-- Onboarding Tour -->
+  <div class="onboarding-tour" *ngIf="showOnboarding">
+    <div class="onboarding-content">
+      <div class="steps-progress">
+        <div class="progress-track">
+          <div 
+            class="progress-fill" 
+            [style.width.%]="(currentStep / (steps.length - 1)) * 100"
+          ></div>
+        </div>
+        <div class="step-indicators">
+          <div 
+            *ngFor="let step of steps; let i = index" 
+            class="step-dot" 
+            [class.active]="i === currentStep"
+            [class.completed]="i < currentStep"
+            (click)="currentStep = i"
+          ></div>
+        </div>
+      </div>
+      
+      <div class="onboarding-step">
+        <div class="step-image">
+          <img [src]="steps[currentStep].image" alt="Onboarding step">
+        </div>
+        
+        <div class="step-content">
+          <h1>{{ steps[currentStep].title }}</h1>
+          <p>{{ steps[currentStep].description }}</p>
+          
+          <div class="step-actions">
+            <button 
+              *ngIf="currentStep > 0" 
+              class="btn-outline back-btn" 
+              (click)="previousStep()"
+            >
+              <i class="fas fa-chevron-left"></i> Back
+            </button>
+            <button 
+              class="btn-primary next-btn" 
+              (click)="nextStep()"
+            >
+              {{ steps[currentStep].actions.primary }}
+              <i *ngIf="currentStep < steps.length - 1" class="fas fa-chevron-right"></i>
+            </button>
+            <button 
+              *ngIf="steps[currentStep].actions.secondary" 
+              class="skip-btn" 
+              (click)="skipTour()"
+            >
+              {{ steps[currentStep].actions.secondary }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Help Center (shown after onboarding) -->
+  <div class="help-center" *ngIf="!showOnboarding">
+    <div class="help-header">
+      <h1>Help Center</h1>
+      <p>Learn how to get the most out of Social Manager</p>
+    </div>
+    
+    <div class="help-search">
+      <div class="search-input">
+        <i class="fas fa-search"></i>
+        <input type="text" placeholder="Search for help topics...">
+      </div>
+    </div>
+    
+    <div class="help-categories">
+      <div class="category-card" (click)="navigateToFeature('dashboard')">
+        <div class="category-icon">
+          <i class="fas fa-tachometer-alt"></i>
+        </div>
+        <h3>Using the Dashboard</h3>
+        <p>Learn how to navigate and understand your analytics dashboard</p>
+        <a class="learn-more">Learn more <i class="fas fa-arrow-right"></i></a>
+      </div>
+      
+      <div class="category-card" (click)="navigateToFeature('content-creation')">
+        <div class="category-icon">
+          <i class="fas fa-edit"></i>
+        </div>
+        <h3>Creating Content</h3>
+        <p>Tips for creating engaging posts and using the AI assistant</p>
+        <a class="learn-more">Learn more <i class="fas fa-arrow-right"></i></a>
+      </div>
+      
+      <div class="category-card" (click)="navigateToFeature('schedule')">
+        <div class="category-icon">
+          <i class="fas fa-calendar-alt"></i>
+        </div>
+        <h3>Scheduling Posts</h3>
+        <p>How to schedule content and use the content calendar</p>
+        <a class="learn-more">Learn more <i class="fas fa-arrow-right"></i></a>
+      </div>
+      
+      <div class="category-card" (click)="navigateToFeature('analytics')">
+        <div class="category-icon">
+          <i class="fas fa-chart-line"></i>
+        </div>
+        <h3>Analytics & Insights</h3>
+        <p>Understanding your performance metrics and audience data</p>
+        <a class="learn-more">Learn more <i class="fas fa-arrow-right"></i></a>
+      </div>
+    </div>
+    
+    <div class="help-quick-tips">
+      <h2>Quick Tips</h2>
+      
+      <div class="tips-list">
+        <div class="tip-item">
+          <div class="tip-icon">
+            <i class="fas fa-lightbulb"></i>
+          </div>
+          <div class="tip-content">
+            <h4>Best Time to Post</h4>
+            <p>Check your analytics to find when your audience is most active and schedule posts for those times.</p>
+          </div>
+        </div>
+        
+        <div class="tip-item">
+          <div class="tip-icon">
+            <i class="fas fa-hashtag"></i>
+          </div>
+          <div class="tip-content">
+            <h4>Hashtag Strategy</h4>
+            <p>Use a mix of popular and niche hashtags. Our AI can help generate relevant hashtags for your content.</p>
+          </div>
+        </div>
+        
+        <div class="tip-item">
+          <div class="tip-icon">
+            <i class="fas fa-robot"></i>
+          </div>
+          <div class="tip-content">
+            <h4>AI Content Generation</h4>
+            <p>Let our AI suggest captions and hashtags based on your uploaded media to save time and boost engagement.</p>
+          </div>
+        </div>
+        
+        <div class="tip-item">
+          <div class="tip-icon">
+            <i class="fas fa-calendar-check"></i>
+          </div>
+          <div class="tip-content">
+            <h4>Consistent Posting</h4>
+            <p>Create a content calendar and stick to a regular posting schedule to maximize your reach and engagement.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="restart-tour-section">
+      <button class="btn-outline restart-btn" (click)="restartTour()">
+        <i class="fas fa-redo"></i> Restart Onboarding Tour
+      </button>
+    </div>
+  </div>
+</div>

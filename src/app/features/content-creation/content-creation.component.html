@@ -1,0 +1,276 @@
+<div class="content-creation-container">
+  <div class="content-header">
+    <h1>{{ isEditing ? 'Edit Post' : 'Create New Post' }}</h1>
+    <p>Create and manage your Instagram content</p>
+  </div>
+
+  <!-- Tab Navigation -->
+  <div class="content-tabs">
+    <button 
+      class="tab-button" 
+      [class.active]="currentTab === 'create'"
+      (click)="switchTab('create')"
+    >
+      <i class="fas fa-plus"></i> Create Content
+    </button>
+    <button 
+      class="tab-button" 
+      [class.active]="currentTab === 'drafts'"
+      (click)="switchTab('drafts')"
+    >
+      <i class="fas fa-save"></i> My Drafts
+    </button>
+  </div>
+
+  <!-- Error Message -->
+  <div class="error-message" *ngIf="error">
+    <i class="fas fa-exclamation-circle"></i>
+    <span>{{ error }}</span>
+    <button class="dismiss-btn" (click)="error = null">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+
+  <!-- Loading State -->
+  <div class="loading-container" *ngIf="isLoading">
+    <div class="loading-spinner">
+      <i class="fas fa-spinner fa-spin"></i>
+    </div>
+    <p>Loading content...</p>
+  </div>
+
+  <!-- Create Content Tab -->
+  <div class="create-content" *ngIf="currentTab === 'create' && !isLoading">
+    <div class="content-form">
+      <!-- Media Upload Section -->
+      <div class="form-section">
+        <h3>Media</h3>
+        <div class="media-upload-area" [class.has-error]="mediaUploadError" *ngIf="newPost.mediaItems.length === 0">
+          <input 
+            type="file" 
+            id="media-upload" 
+            accept="image/*,video/*" 
+            (change)="handleFileInput($event)" 
+            multiple
+            class="hidden-input"
+          >
+          <label for="media-upload" class="upload-label">
+            <div class="upload-icon">
+              <i class="fas fa-cloud-upload-alt"></i>
+            </div>
+            <p>Drag & drop your photos/videos here or click to browse</p>
+            <span class="file-types">Supported formats: JPG, PNG, MP4</span>
+          </label>
+        </div>
+
+        <!-- Media Preview -->
+        <div class="media-preview-container" *ngIf="newPost.mediaItems.length > 0">
+          <div class="media-items">
+            <div class="media-item" *ngFor="let item of newPost.mediaItems; let i = index">
+              <div class="media-wrapper">
+                <img *ngIf="item.type === 'image'" [src]="item.url" alt="Media preview">
+                <video *ngIf="item.type === 'video'" [src]="item.url" controls></video>
+                <button class="remove-media" (click)="removeMedia(i)">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+            </div>
+            
+            <div class="add-more-media">
+              <input 
+                type="file" 
+                id="add-more-media" 
+                accept="image/*,video/*" 
+                (change)="handleFileInput($event)" 
+                multiple
+                class="hidden-input"
+              >
+              <label for="add-more-media" class="add-more-label">
+                <i class="fas fa-plus"></i>
+                <span>Add More</span>
+              </label>
+            </div>
+          </div>
+          
+          <div class="media-error" *ngIf="mediaUploadError">
+            <i class="fas fa-exclamation-circle"></i>
+            <span>{{ mediaUploadError }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Caption Section -->
+      <div class="form-section">
+        <div class="section-header">
+          <h3>Caption</h3>
+          <button 
+            class="ai-generate-btn" 
+            (click)="generateCaption()" 
+            [disabled]="isGeneratingCaption"
+          >
+            <i class="fas" [class.fa-robot]="!isGeneratingCaption" [class.fa-spinner]="isGeneratingCaption" [class.fa-spin]="isGeneratingCaption"></i>
+            {{ isGeneratingCaption ? 'Generating...' : 'Generate with AI' }}
+          </button>
+        </div>
+        
+        <textarea 
+          class="caption-textarea" 
+          placeholder="Write a caption for your post..."
+          [(ngModel)]="newPost.caption"
+          rows="5"
+        ></textarea>
+        
+        <!-- AI Caption Suggestions -->
+        <div class="ai-suggestions" *ngIf="aiCaptionSuggestions.length > 0">
+          <h4>AI Suggestions:</h4>
+          <div class="suggestions-list">
+            <div 
+              class="suggestion-item" 
+              *ngFor="let suggestion of aiCaptionSuggestions"
+              (click)="selectAlternativeCaption(suggestion)"
+            >
+              <i class="fas fa-lightbulb"></i>
+              <p>{{ suggestion }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hashtags Section -->
+      <div class="form-section">
+        <div class="section-header">
+          <h3>Hashtags</h3>
+          <button 
+            class="ai-generate-btn" 
+            (click)="generateHashtags()" 
+            [disabled]="isGeneratingHashtags"
+          >
+            <i class="fas" [class.fa-hashtag]="!isGeneratingHashtags" [class.fa-spinner]="isGeneratingHashtags" [class.fa-spin]="isGeneratingHashtags"></i>
+            {{ isGeneratingHashtags ? 'Generating...' : 'Generate with AI' }}
+          </button>
+        </div>
+        
+        <textarea 
+          class="hashtags-textarea" 
+          placeholder="Enter hashtags separated by spaces..."
+          [(ngModel)]="hashtags"
+          (blur)="updateHashtags()"
+          rows="3"
+        ></textarea>
+        
+        <!-- AI Hashtag Suggestions -->
+        <div class="ai-suggestions" *ngIf="aiHashtagSuggestions.length > 0">
+          <h4>AI Suggestions:</h4>
+          <div class="suggestions-list">
+            <div 
+              class="suggestion-item" 
+              *ngFor="let suggestion of aiHashtagSuggestions"
+              (click)="selectAlternativeHashtags(suggestion)"
+            >
+              <i class="fas fa-hashtag"></i>
+              <p>{{ suggestion }}</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Hashtag Preview -->
+        <div class="hashtag-preview" *ngIf="newPost.hashtags.length > 0">
+          <span class="hashtag-badge" *ngFor="let tag of newPost.hashtags">#{{ tag }}</span>
+        </div>
+      </div>
+
+      <!-- Scheduling Section -->
+      <div class="form-section">
+        <h3>Posting Options</h3>
+        
+        <div class="scheduling-options">
+          <div class="schedule-item">
+            <h4>Schedule for later</h4>
+            <div class="schedule-inputs">
+              <div class="form-group">
+                <label for="schedule-date">Date</label>
+                <input 
+                  type="date" 
+                  id="schedule-date" 
+                  [(ngModel)]="selectedScheduleDate" 
+                  [min]="getMinDate()"
+                >
+              </div>
+              
+              <div class="form-group">
+                <label for="schedule-time">Time</label>
+                <input 
+                  type="time" 
+                  id="schedule-time" 
+                  [(ngModel)]="selectedScheduleTime"
+                >
+              </div>
+            </div>
+            
+            <button 
+              class="btn-primary schedule-btn" 
+              (click)="schedulePost()" 
+              [disabled]="isSaving"
+            >
+              <i *ngIf="isSaving" class="fas fa-spinner fa-spin"></i>
+              <i *ngIf="!isSaving" class="fas fa-calendar-check"></i>
+              {{ isSaving ? 'Scheduling...' : 'Schedule Post' }}
+            </button>
+          </div>
+          
+          <div class="action-buttons">
+            <button 
+              class="btn-outline save-draft-btn" 
+              (click)="saveAsDraft()" 
+              [disabled]="isSaving"
+            >
+              <i *ngIf="isSaving" class="fas fa-spinner fa-spin"></i>
+              <i *ngIf="!isSaving" class="fas fa-save"></i>
+              {{ isSaving ? 'Saving...' : 'Save as Draft' }}
+            </button>
+            
+            <button 
+              class="btn-primary publish-btn" 
+              (click)="publishNow()" 
+              [disabled]="isSaving"
+            >
+              <i *ngIf="isSaving" class="fas fa-spinner fa-spin"></i>
+              <i *ngIf="!isSaving" class="fas fa-paper-plane"></i>
+              {{ isSaving ? 'Publishing...' : 'Publish Now' }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Drafts Tab -->
+  <div class="drafts-content" *ngIf="currentTab === 'drafts' && !isLoading">
+    <div class="drafts-header">
+      <h2>My Drafts</h2>
+      <button class="btn-primary new-draft-btn" (click)="switchTab('create')">
+        <i class="fas fa-plus"></i> Create New Draft
+      </button>
+    </div>
+    
+    <div class="drafts-grid" *ngIf="allDrafts.length > 0">
+      <app-post-card 
+        *ngFor="let draft of allDrafts" 
+        [post]="draft"
+        (edit)="editDraft($event)"
+        (delete)="deleteDraft($event)"
+        (publish)="publishDraft($event)"
+        (schedule)="scheduleDraft($event)"
+      ></app-post-card>
+    </div>
+    
+    <div class="empty-drafts" *ngIf="allDrafts.length === 0">
+      <div class="empty-icon">
+        <i class="fas fa-file-alt"></i>
+      </div>
+      <h3>No drafts yet</h3>
+      <p>Create your first draft to see it here</p>
+      <button class="btn-primary" (click)="switchTab('create')">Create Draft</button>
+    </div>
+  </div>
+</div>

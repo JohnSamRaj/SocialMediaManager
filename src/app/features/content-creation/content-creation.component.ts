@@ -1,0 +1,498 @@
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { ActivatedRoute, RouterModule } from '@angular/router';
+import { InstagramService } from '../../core/services/instagram.service';
+import { AIService } from '../../core/services/ai.service';
+import { Post, PostStatus, PostType, MediaItem, DraftPost } from '../../core/models/post.model';
+import { PostCardComponent } from '../../shared/components/post-card/post-card.component';
+
+@Component({
+  selector: 'app-content-creation',
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule,
+    RouterModule,
+    PostCardComponent
+  ],
+  templateUrl: './content-creation.component.html',
+  styleUrls: ['./content-creation.component.css']
+})
+export class ContentCreationComponent implements OnInit {
+  currentTab: 'create' | 'drafts' = 'create';
+  
+  // For template access
+  PostStatus = PostStatus;
+  
+  // Helper method for template
+  getMinDate(): string {
+    return new Date().toISOString().split('T')[0];
+  }
+  
+  // New post data
+  newPost: DraftPost = {
+    caption: '',
+    mediaItems: [],
+    hashtags: [],
+    type: PostType.IMAGE,
+    userId: 0,
+    platform: 'instagram'
+  };
+  
+  // For editing an existing post
+  isEditing = false;
+  editingPostId = '';
+  
+  // AI generation
+  isGeneratingCaption = false;
+  isGeneratingHashtags = false;
+  aiCaptionSuggestions: string[] = [];
+  aiHashtagSuggestions: string[] = [];
+  
+  // UI state
+  hashtags = '';
+  allDrafts: Post[] = [];
+  selectedScheduleDate: string = '';
+  selectedScheduleTime: string = '';
+  
+  // Form state
+  mediaFiles: File[] = [];
+  mediaUploadError: string | null = null;
+  
+  // Errors and loading states
+  isLoading = false;
+  isSaving = false;
+  error: string | null = null;
+  
+  constructor(
+    private instagramService: InstagramService,
+    private aiService: AIService,
+    private route: ActivatedRoute
+  ) { 
+    // Set user ID from service
+    const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+    if (currentUser && currentUser.id) {
+      this.newPost.userId = currentUser.id;
+    }
+  }
+
+  ngOnInit(): void {
+    // Check if we're editing an existing post
+    this.route.queryParams.subscribe(params => {
+      const postId = params['id'];
+      if (postId) {
+        this.loadPostForEditing(postId);
+      }
+    });
+    
+    // Load drafts
+    this.loadDrafts();
+  }
+  
+  loadPostForEditing(postId: string): void {
+    this.isLoading = true;
+    this.isEditing = true;
+    this.editingPostId = postId;
+    
+    this.instagramService.getPostById(postId).subscribe({
+      next: (post) => {
+        if (post) {
+          this.newPost = {
+            caption: post.caption,
+            mediaItems: [...post.mediaItems],
+            hashtags: [...post.hashtags],
+            type: post.type,
+            userId: post.userId,
+            platform: post.platform,
+            scheduledFor: post.scheduledFor
+          };
+          
+          // Set hashtags for display
+          this.hashtags = post.hashtags.join(' ');
+          
+          // Set schedule date/time if available
+          if (post.scheduledFor) {
+            const date = new Date(post.scheduledFor);
+            this.selectedScheduleDate = date.toISOString().split('T')[0];
+            this.selectedScheduleTime = `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
+          }
+          
+          this.isLoading = false;
+        }
+      },
+      error: (err) => {
+        this.error = 'Failed to load post for editing';
+        this.isLoading = false;
+        console.error('Error loading post:', err);
+      }
+    });
+  }
+  
+  loadDrafts(): void {
+    this.instagramService.getDraftPosts().subscribe({
+      next: (drafts) => {
+        this.allDrafts = drafts;
+      },
+      error: (err) => {
+        console.error('Error loading drafts:', err);
+      }
+    });
+  }
+  
+  switchTab(tab: 'create' | 'drafts'): void {
+    this.currentTab = tab;
+    if (tab === 'drafts') {
+      this.loadDrafts();
+    }
+  }
+  
+  handleFileInput(event: any): void {
+    const files = event.target.files;
+    if (!files || files.length === 0) return;
+    
+    this.mediaUploadError = null;
+    
+    // Validate file types (only images and videos)
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      if (!file.type.startsWith('image/') && !file.type.startsWith('video/')) {
+        this.mediaUploadError = 'Only image and video files are allowed';
+        return;
+      }
+      
+      // Add to media files
+      this.mediaFiles.push(file);
+      
+      // Create a preview and add to post media items
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        const mediaItem: MediaItem = {
+          id: `temp-${Date.now()}-${i}`,
+          url: e.target.result,
+          type: file.type.startsWith('image/') ? 'image' : 'video'
+        };
+        this.newPost.mediaItems.push(mediaItem);
+      };
+      reader.readAsDataURL(file);
+    }
+    
+    // In a real app, we would upload these files to a server
+    // For now, we'll just use the local preview URLs
+  }
+  
+  removeMedia(index: number): void {
+    this.newPost.mediaItems.splice(index, 1);
+    this.mediaFiles.splice(index, 1);
+  }
+  
+  generateCaption(): void {
+    if (this.newPost.mediaItems.length === 0) {
+      this.error = 'Please upload at least one image or video first';
+      return;
+    }
+    
+    this.isGeneratingCaption = true;
+    this.aiCaptionSuggestions = [];
+    
+    const mediaUrls = this.newPost.mediaItems.map(item => item.url);
+    
+    this.aiService.generateCaption(mediaUrls).subscribe({
+      next: (response) => {
+        this.newPost.caption = response.content;
+        if (response.alternativeOptions) {
+          this.aiCaptionSuggestions = response.alternativeOptions;
+        }
+        this.isGeneratingCaption = false;
+      },
+      error: (err) => {
+        this.error = 'Failed to generate caption';
+        this.isGeneratingCaption = false;
+        console.error('Error generating caption:', err);
+      }
+    });
+  }
+  
+  selectAlternativeCaption(caption: string): void {
+    this.newPost.caption = caption;
+  }
+  
+  generateHashtags(): void {
+    if (this.newPost.mediaItems.length === 0 && !this.newPost.caption) {
+      this.error = 'Please upload media or add a caption first';
+      return;
+    }
+    
+    this.isGeneratingHashtags = true;
+    this.aiHashtagSuggestions = [];
+    
+    const mediaUrls = this.newPost.mediaItems.map(item => item.url);
+    const context = this.newPost.caption;
+    
+    this.aiService.generateHashtags(mediaUrls, context).subscribe({
+      next: (response) => {
+        this.hashtags = response.content;
+        this.newPost.hashtags = this.hashtags
+          .split(' ')
+          .map(tag => tag.startsWith('#') ? tag.substring(1) : tag)
+          .filter(tag => tag.trim().length > 0);
+        
+        if (response.alternativeOptions) {
+          this.aiHashtagSuggestions = response.alternativeOptions;
+        }
+        this.isGeneratingHashtags = false;
+      },
+      error: (err) => {
+        this.error = 'Failed to generate hashtags';
+        this.isGeneratingHashtags = false;
+        console.error('Error generating hashtags:', err);
+      }
+    });
+  }
+  
+  selectAlternativeHashtags(hashtags: string): void {
+    this.hashtags = hashtags;
+    this.newPost.hashtags = this.hashtags
+      .split(' ')
+      .map(tag => tag.startsWith('#') ? tag.substring(1) : tag)
+      .filter(tag => tag.trim().length > 0);
+  }
+  
+  updateHashtags(): void {
+    this.newPost.hashtags = this.hashtags
+      .split(' ')
+      .map(tag => tag.startsWith('#') ? tag.substring(1) : tag)
+      .filter(tag => tag.trim().length > 0);
+  }
+  
+  saveAsDraft(): void {
+    if (this.validateForm()) {
+      this.isSaving = true;
+      
+      if (this.isEditing) {
+        this.instagramService.updatePost(this.editingPostId, {
+          caption: this.newPost.caption,
+          mediaItems: this.newPost.mediaItems,
+          hashtags: this.newPost.hashtags,
+          status: PostStatus.DRAFT
+        }).subscribe({
+          next: () => {
+            this.isSaving = false;
+            alert('Post updated successfully');
+            this.resetForm();
+            this.loadDrafts();
+            this.currentTab = 'drafts';
+          },
+          error: (err) => {
+            this.error = 'Failed to update post';
+            this.isSaving = false;
+            console.error('Error updating post:', err);
+          }
+        });
+      } else {
+        this.instagramService.createPost(this.newPost).subscribe({
+          next: () => {
+            this.isSaving = false;
+            alert('Draft saved successfully');
+            this.resetForm();
+            this.loadDrafts();
+            this.currentTab = 'drafts';
+          },
+          error: (err) => {
+            this.error = 'Failed to save draft';
+            this.isSaving = false;
+            console.error('Error saving draft:', err);
+          }
+        });
+      }
+    }
+  }
+  
+  schedulePost(): void {
+    if (!this.selectedScheduleDate || !this.selectedScheduleTime) {
+      this.error = 'Please select both date and time for scheduling';
+      return;
+    }
+    
+    if (this.validateForm()) {
+      const scheduledDateTime = new Date(`${this.selectedScheduleDate}T${this.selectedScheduleTime}`);
+      
+      if (scheduledDateTime <= new Date()) {
+        this.error = 'Scheduled time must be in the future';
+        return;
+      }
+      
+      this.isSaving = true;
+      this.newPost.scheduledFor = scheduledDateTime;
+      
+      if (this.isEditing) {
+        this.instagramService.updatePost(this.editingPostId, {
+          caption: this.newPost.caption,
+          mediaItems: this.newPost.mediaItems,
+          hashtags: this.newPost.hashtags,
+          status: PostStatus.SCHEDULED,
+          scheduledFor: scheduledDateTime
+        }).subscribe({
+          next: () => {
+            this.isSaving = false;
+            alert('Post scheduled successfully');
+            this.resetForm();
+          },
+          error: (err) => {
+            this.error = 'Failed to schedule post';
+            this.isSaving = false;
+            console.error('Error scheduling post:', err);
+          }
+        });
+      } else {
+        this.instagramService.createPost(this.newPost).subscribe({
+          next: () => {
+            this.isSaving = false;
+            alert('Post scheduled successfully');
+            this.resetForm();
+          },
+          error: (err) => {
+            this.error = 'Failed to schedule post';
+            this.isSaving = false;
+            console.error('Error scheduling post:', err);
+          }
+        });
+      }
+    }
+  }
+  
+  publishNow(): void {
+    if (this.validateForm()) {
+      this.isSaving = true;
+      
+      if (this.isEditing) {
+        this.instagramService.updatePost(this.editingPostId, {
+          caption: this.newPost.caption,
+          mediaItems: this.newPost.mediaItems,
+          hashtags: this.newPost.hashtags
+        }).subscribe({
+          next: (updatedPost) => {
+            this.instagramService.publishPost(updatedPost.id).subscribe({
+              next: () => {
+                this.isSaving = false;
+                alert('Post published successfully');
+                this.resetForm();
+              },
+              error: (err) => {
+                this.error = 'Failed to publish post';
+                this.isSaving = false;
+                console.error('Error publishing post:', err);
+              }
+            });
+          },
+          error: (err) => {
+            this.error = 'Failed to update post';
+            this.isSaving = false;
+            console.error('Error updating post:', err);
+          }
+        });
+      } else {
+        this.instagramService.createPost(this.newPost).subscribe({
+          next: (newPost) => {
+            this.instagramService.publishPost(newPost.id).subscribe({
+              next: () => {
+                this.isSaving = false;
+                alert('Post published successfully');
+                this.resetForm();
+              },
+              error: (err) => {
+                this.error = 'Failed to publish post';
+                this.isSaving = false;
+                console.error('Error publishing post:', err);
+              }
+            });
+          },
+          error: (err) => {
+            this.error = 'Failed to create post';
+            this.isSaving = false;
+            console.error('Error creating post:', err);
+          }
+        });
+      }
+    }
+  }
+  
+  validateForm(): boolean {
+    this.error = null;
+    
+    if (this.newPost.mediaItems.length === 0) {
+      this.error = 'Please upload at least one image or video';
+      return false;
+    }
+    
+    if (!this.newPost.caption || this.newPost.caption.trim().length === 0) {
+      this.error = 'Please enter a caption for your post';
+      return false;
+    }
+    
+    return true;
+  }
+  
+  resetForm(): void {
+    this.newPost = {
+      caption: '',
+      mediaItems: [],
+      hashtags: [],
+      type: PostType.IMAGE,
+      userId: this.newPost.userId,
+      platform: 'instagram'
+    };
+    this.hashtags = '';
+    this.mediaFiles = [];
+    this.selectedScheduleDate = '';
+    this.selectedScheduleTime = '';
+    this.error = null;
+    this.isEditing = false;
+    this.editingPostId = '';
+    this.aiCaptionSuggestions = [];
+    this.aiHashtagSuggestions = [];
+  }
+  
+  editDraft(post: Post): void {
+    this.loadPostForEditing(post.id);
+    this.currentTab = 'create';
+  }
+  
+  deleteDraft(post: Post): void {
+    if (confirm('Are you sure you want to delete this draft?')) {
+      this.instagramService.deletePost(post.id).subscribe({
+        next: () => {
+          this.loadDrafts();
+        },
+        error: (err) => {
+          this.error = 'Failed to delete draft';
+          console.error('Error deleting draft:', err);
+        }
+      });
+    }
+  }
+  
+  scheduleDraft(data: { post: Post, date: Date }): void {
+    this.instagramService.schedulePost(data.post.id, data.date).subscribe({
+      next: () => {
+        this.loadDrafts();
+      },
+      error: (err) => {
+        this.error = 'Failed to schedule post';
+        console.error('Error scheduling post:', err);
+      }
+    });
+  }
+  
+  publishDraft(post: Post): void {
+    this.instagramService.publishPost(post.id).subscribe({
+      next: () => {
+        this.loadDrafts();
+      },
+      error: (err) => {
+        this.error = 'Failed to publish post';
+        console.error('Error publishing post:', err);
+      }
+    });
+  }
+}
