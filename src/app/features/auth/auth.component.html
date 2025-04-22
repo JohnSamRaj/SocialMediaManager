@@ -6,6 +6,12 @@
         <p>Manage all your social media content in one place</p>
       </div>
 
+      <div class="demo-credentials">
+        <p><strong>Demo Credentials:</strong></p>
+        <p>Email: demo&#64;example.com</p>
+        <p>Password: password123</p>
+      </div>
+
       <div *ngIf="errorMessage" class="error-message">
         {{ errorMessage }}
       </div>
@@ -20,7 +26,7 @@
             type="email" 
             id="loginEmail" 
             formControlName="email"
-            placeholder="yourname@example.com"
+            placeholder="yourname&#64;example.com"
             [class.invalid]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched"
           >
           <div class="validation-error" *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
@@ -108,7 +114,7 @@
             type="email" 
             id="registerEmail" 
             formControlName="email"
-            placeholder="yourname@example.com"
+            placeholder="yourname&#64;example.com"
             [class.invalid]="registerForm.get('email')?.invalid && registerForm.get('email')?.touched"
           >
           <div class="validation-error" *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">

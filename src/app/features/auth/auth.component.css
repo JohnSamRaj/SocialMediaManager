@@ -58,6 +58,19 @@
   text-align: center;
 }
 
+.demo-credentials {
+  background-color: rgba(0, 122, 255, 0.1);
+  color: #007aff;
+  padding: 1rem;
+  border-radius: var(--border-radius);
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+}
+
+.demo-credentials p {
+  margin: 0.2rem 0;
+}
+
 .form-group {
   margin-bottom: 1.5rem;
 }
