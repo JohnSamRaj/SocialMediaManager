@@ -1,0 +1,48 @@
+App Overview :
+This Is A App That Maintains All Social Media Platform In One Place Like Here We Can Post Edit Etc...,
+App Like ZOHO Social But Initialy Stage Now We Assign Only For Instagram So This App Only Support Instagram,
+In Future Various Paltform Will Be Added.
+
+Tools Need To Use :
+Full And Fully This App Code Must Be In Angular 19 Or Angular latest Stable Version With Default Standalone Component And Html Css And Js, No React, The Code And File Structure Must Be Clean And Easy To Access And Open To Learn,
+
+Color Pallete :
+For Background Dont Use Pure White Make Slighty Whitesh Pink That White Suite The Below Five Color,
+#f79ed8
+#c17da9
+#8c5c7b
+#563b4c
+#201a1e in Colors The Five Color Must Dominate The Whole Page And Make Differentiate On Hover effect and on click effect,
+Like That Way These Color Must Apply As primary 5 Colors
+
+Objective:
+This App Is Purely For Creators Who Maintains Multiple Platform In Social Media,
+This App Should Definetly Help Them To Manage There Different Platform In One Place,
+Here They Can Post, Update, Edit, Draft , Schedule And Delete These All Operation Can Done in One Place
+
+Main Features:
+I Already Tolded You This App like Zoho Social So It Default Have All The Features That Zoho Social Have On Instagram Only,
+Because In Initial Stage We Create This Only For Instagram That Way It Have All The Features That Zoho Social Have About Instagram,
+Apart From Zoho Social We Have Unique Touch From Our Side Like Give The User Real-Time Data Analytics,
+Like The Creator Can Get All The Analytics About The Page Or A Channel, So That Way Creator Can Develop There Channel Or Page,
+Then We Have A Option To Add Thumbnail, Description, Hashtag, Etc..., By The Way These All Can Done By Either Manually or
+By The AI Assistant, If its Manually Means Creator Can Fill All The Things, By AI Means The Gemini 1.5 pro and Flash,
+Both Will Work Correspondingly To Manage There Workload, That AI Generation For All The Things Like Thumbnail, Description or Hashtag etc...,
+These All Are Extract From The Media That The Creator Upload Example If The Creator Upload Cricket Montage Of Virat Kholi Means,
+The AI Automatically make A Thumbnail For It And Related to Virat Cricket And Description Should Create Like Which Match,
+Where And How he Play And Gloryfiy The Montage Like That Stuff For Hashtag AI also Auto generate the #cricket #virat etc...,
+like That The AI Can Also Generated, So Basically All The Existing Features in Zoho Social And All Other I Told All The Features And
+Functions Should In Code Without Error.
+
+User Interface:
+Initially It Show The Basic Login Page The It Have Project name and Login With Google and Login With Apple Or Either Login With Email or Password,
+Like Authentic Method If Not A User Means It Have Sign up Option On That Page Full Name Email Password These Details,
+After Signup and Login The It Directly Come To Main Page There It Need To Show Help Document or User Guide Like A Floating Window Details Like How to Access tHe PAge And About the App For The New Users,
+The User Experience And User Interface Must Be Easy Use And Neat And Clean And Less Clickable And Less Scrollable,
+Add Hover Effect In Like Button Or Heading Like Etc.. Add That All In Necessary Areas,
+User Interface Must Have New Design And New Sturcture With Attaractive Manner With the Given Color Combination
+
+How Need To Write The Angular Code:
+The Code Must Be Fully IN Angular 19 Or Angular latest Stable Version With Default Standalone Component With Fully Working Code In Neat And Clean And Also That All Should Be Generic And Dynamic,
+From Platform To Platform Like If I Write One Code Means That Should Satisfy Instagram need And Also Youtube Needs,
+Like Wise In Future That Give More Flexibilty To Upgrade Paltform, Now Curently I Dont Need Database code But Just Create Folders No File Needed Becuase In Future Development, I add Supabase So Give Code For That But Dont Connect database.
