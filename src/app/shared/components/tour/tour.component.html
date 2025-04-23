@@ -6,7 +6,7 @@
   <div class="tour-highlight"></div>
   
   <!-- Tour step -->
-  <div class="tour-step" [ngClass]="activeStep ? activeStep.customClass : ''" *ngIf="activeStep">
+  <div class="tour-step" [ngClass]="[activeStep ? activeStep.customClass : '', activeStep ? activeStep.position : '']" *ngIf="activeStep">
     <!-- Close button -->
     <button class="tour-close" (click)="closeStep()">×</button>
     

@@ -118,9 +118,64 @@
     left: 0;
     height: calc(100vh - 60px);
     transform: translateX(-100%);
+    width: 80%;
+    max-width: 320px;
+    box-shadow: 5px 0 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
   }
   
   .sidebar.show {
+    transform: translateX(0);
+    animation: slideIn 0.3s ease;
+  }
+  
+  .sidebar.collapsed {
+    width: 80%; /* Don't collapse on mobile */
+  }
+  
+  .sidebar.collapsed .sidebar-nav span,
+  .sidebar.collapsed .platform-selector span {
+    display: block; /* Show text even when collapsed on mobile */
+  }
+  
+  .sidebar-header {
+    padding: 1rem;
+  }
+
+  .toggle-btn {
+    display: none; /* Hide collapse toggle on mobile */
+  }
+  
+  .sidebar-nav {
+    padding: 0.5rem 0;
+  }
+  
+  .sidebar-nav a {
+    padding: 0.75rem 1rem;
+  }
+  
+  /* Close button for mobile */
+  .mobile-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
     transform: translateX(0);
   }
 }

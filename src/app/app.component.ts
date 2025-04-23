@@ -22,6 +22,7 @@ import { TourService } from './core/services/tour.service';
 })
 export class AppComponent implements OnInit {
   title = 'Social Media Manager';
+  isSidebarOpen = false;
   
   constructor(
     public authService: AuthService,
@@ -30,5 +31,19 @@ export class AppComponent implements OnInit {
   
   ngOnInit(): void {
     // The tour service will automatically start the tour for first-time users
+  }
+  
+  /**
+   * Toggles the mobile sidebar menu open/closed
+   */
+  toggleSidebar(): void {
+    this.isSidebarOpen = !this.isSidebarOpen;
+    
+    // Add no-scroll class to body when sidebar is open on mobile
+    if (this.isSidebarOpen) {
+      document.body.classList.add('no-scroll');
+    } else {
+      document.body.classList.remove('no-scroll');
+    }
   }
 }

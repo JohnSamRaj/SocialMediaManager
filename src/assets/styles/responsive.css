@@ -1,294 +1,20 @@
+/* Responsive CSS for Social Media Manager */
+
 /* 
-   Social Media Manager - Responsive Styles
-   Defines responsive breakpoints for:
-   - Mobile: up to 576px
-   - Tablet: 577px to 991px
-   - Laptop/Desktop: 992px and above
+  Device breakpoints:
+  - Mobile: Up to 576px
+  - Tablet: 577px to 991px
+  - Laptop/Desktop: 992px and above
 */
 
-/* Base styles (applied to all devices) */
+/* Base styles (for all devices) */
 :root {
   --sidebar-width: 240px;
-  --header-height: 60px;
+  --header-height: 64px;
   --content-padding: 24px;
 }
 
-/* Responsive breakpoints */
-/* Mobile (portrait phones) */
-@media (max-width: 576px) {
-  :root {
-    --sidebar-width: 100%;
-    --content-padding: 16px;
-  }
-  
-  .app-container {
-    flex-direction: column;
-  }
-  
-  .header-container {
-    padding: 0 16px;
-  }
-  
-  .sidebar {
-    position: fixed;
-    top: var(--header-height);
-    left: 0;
-    width: 100%;
-    height: auto;
-    transform: translateX(-100%);
-    transition: transform 0.3s ease;
-    z-index: 100;
-  }
-  
-  .sidebar.active {
-    transform: translateX(0);
-  }
-  
-  .main-content {
-    margin-left: 0;
-    padding: 16px;
-  }
-  
-  .menu-toggle {
-    display: flex;
-  }
-  
-  /* Dashboard layout adjustments */
-  .dashboard-overview, 
-  .dashboard-stats,
-  .dashboard-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .stats-card {
-    padding: 12px;
-  }
-  
-  /* Content creation adjustments */
-  .create-form {
-    grid-template-columns: 1fr;
-  }
-  
-  .media-upload {
-    flex-direction: column;
-  }
-  
-  /* Analytics adjustments */
-  .analytics-header,
-  .metrics-grid,
-  .charts-grid,
-  .demographics-grid,
-  .top-posts-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  /* Schedule adjustments */
-  .schedule-container {
-    flex-direction: column;
-  }
-  
-  .calendar-container {
-    width: 100%;
-  }
-  
-  .schedule-details {
-    width: 100%;
-    margin-top: 20px;
-  }
-  
-  /* Auth page layout */
-  .auth-content {
-    flex-direction: column;
-  }
-  
-  .auth-hero {
-    display: none;
-  }
-  
-  .auth-form-container {
-    width: 100%;
-    max-width: 100%;
-    padding: 20px 16px;
-  }
-  
-  /* Tour adjustments */
-  .tour-step {
-    max-width: 90vw;
-    width: 280px;
-  }
-  
-  .tour-step.welcome-step, 
-  .tour-step.finish-step {
-    width: 90%;
-  }
-}
-
-/* Tablet (landscape phones and tablets) */
-@media (min-width: 577px) and (max-width: 991px) {
-  :root {
-    --sidebar-width: 220px;
-    --content-padding: 20px;
-  }
-  
-  .main-content {
-    margin-left: var(--sidebar-width);
-    padding: 20px;
-  }
-  
-  /* Dashboard layout adjustments */
-  .dashboard-overview, 
-  .dashboard-stats {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  
-  .dashboard-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  
-  /* Content creation adjustments */
-  .create-form {
-    grid-template-columns: 1fr;
-  }
-  
-  /* Analytics adjustments */
-  .metrics-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  
-  .charts-grid,
-  .demographics-grid,
-  .top-posts-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  
-  /* Schedule adjustments */
-  .schedule-container {
-    flex-direction: column;
-  }
-  
-  .calendar-container {
-    width: 100%;
-  }
-  
-  .schedule-details {
-    width: 100%;
-    margin-top: 20px;
-  }
-  
-  /* Auth page layout */
-  .auth-content {
-    flex-direction: row;
-  }
-  
-  .auth-form-container {
-    width: 50%;
-  }
-  
-  .auth-hero {
-    width: 50%;
-  }
-  
-  /* Tour adjustments */
-  .tour-step {
-    width: 320px;
-  }
-  
-  .tour-step.welcome-step, 
-  .tour-step.finish-step {
-    width: 70%;
-  }
-}
-
-/* Laptop/Desktop (large devices) */
-@media (min-width: 992px) {
-  :root {
-    --sidebar-width: 240px;
-    --content-padding: 24px;
-  }
-  
-  .main-content {
-    margin-left: var(--sidebar-width);
-    padding: 24px;
-  }
-  
-  .menu-toggle {
-    display: none;
-  }
-  
-  /* Dashboard layout adjustments */
-  .dashboard-overview {
-    grid-template-columns: repeat(4, 1fr);
-  }
-  
-  .dashboard-stats {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  
-  .dashboard-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-  
-  /* Content creation adjustments */
-  .create-form {
-    grid-template-columns: 3fr 1fr;
-  }
-  
-  /* Analytics adjustments */
-  .metrics-grid {
-    grid-template-columns: repeat(4, 1fr);
-  }
-  
-  .charts-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  
-  .demographics-grid,
-  .top-posts-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-  
-  /* Schedule adjustments */
-  .schedule-container {
-    flex-direction: row;
-  }
-  
-  .calendar-container {
-    width: 65%;
-  }
-  
-  .schedule-details {
-    width: 35%;
-  }
-  
-  /* Auth page layout */
-  .auth-content {
-    flex-direction: row;
-  }
-  
-  .auth-form-container {
-    width: 40%;
-  }
-  
-  .auth-hero {
-    width: 60%;
-  }
-  
-  /* Tour adjustments */
-  .tour-step {
-    width: 350px;
-  }
-  
-  .tour-step.welcome-step {
-    width: 500px;
-  }
-  
-  .tour-step.finish-step {
-    width: 80%;
-    max-width: 800px;
-  }
-}
-
-/* Additional utility classes for responsive helpers */
+/* General responsive utilities */
 .mobile-only {
   display: none;
 }
@@ -298,58 +24,289 @@
 }
 
 .desktop-only {
-  display: none;
+  display: block;
 }
 
-@media (max-width: 576px) {
+/* Mobile styles (up to 576px) */
+@media screen and (max-width: 576px) {
+  :root {
+    --sidebar-width: 0;
+    --header-height: 56px;
+    --content-padding: 16px;
+  }
+  
+  /* Display utilities */
   .mobile-only {
     display: block;
   }
   
-  .tablet-hide, .desktop-hide {
+  .tablet-only, .desktop-only {
     display: none;
+  }
+  
+  /* Layout adjustments */
+  .app-container {
+    grid-template-columns: 1fr !important;
+    grid-template-areas: 
+      "header"
+      "main"
+      "footer" !important;
+  }
+  
+  .app-sidebar {
+    transform: translateX(-100%);
+    position: fixed;
+    top: var(--header-height);
+    left: 0;
+    width: 80%;
+    height: calc(100vh - var(--header-height));
+    z-index: 1000;
+    transition: transform 0.3s ease;
+  }
+  
+  .app-sidebar.show {
+    transform: translateX(0);
+  }
+  
+  .app-header {
+    padding: 0 12px;
+  }
+  
+  .app-main {
+    padding: 16px !important;
+  }
+  
+  /* Component specific styles */
+  .dashboard-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+  
+  .stats-grid {
+    grid-template-columns: 1fr !important;
+  }
+  
+  .post-card {
+    width: 100% !important;
+  }
+  
+  .analytics-grid, 
+  .chart-container, 
+  .audience-grid {
+    grid-template-columns: 1fr !important;
+  }
+  
+  .content-creation-container,
+  .schedule-container {
+    flex-direction: column !important;
+  }
+  
+  .media-preview-grid {
+    grid-template-columns: 1fr 1fr !important;
+  }
+  
+  /* Form elements */
+  input, select, textarea {
+    font-size: 16px !important; /* Prevents zoom on iOS */
+  }
+  
+  .form-grid {
+    grid-template-columns: 1fr !important;
+  }
+  
+  /* Auth pages */
+  .auth-container {
+    grid-template-columns: 1fr !important;
+  }
+  
+  .auth-hero {
+    display: none !important;
+  }
+  
+  /* Modals and overlays */
+  .modal-content {
+    width: 95% !important;
+    max-width: 95% !important;
+    padding: 16px !important;
+  }
+  
+  /* Navigation */
+  .mobile-menu-toggle {
+    display: flex;
+  }
+  
+  /* Tour components */
+  .tour-step {
+    width: 80% !important;
+    max-width: 300px !important;
   }
 }
 
-@media (min-width: 577px) and (max-width: 991px) {
+/* Tablet styles (577px to 991px) */
+@media screen and (min-width: 577px) and (max-width: 991px) {
+  :root {
+    --sidebar-width: 200px;
+    --content-padding: 20px;
+  }
+  
+  /* Display utilities */
   .tablet-only {
     display: block;
   }
   
-  .mobile-hide, .desktop-hide {
+  .mobile-only, .desktop-only {
     display: none;
+  }
+  
+  /* Layout adjustments */
+  .app-main {
+    padding: 20px !important;
+  }
+  
+  /* Component specific styles */
+  .dashboard-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 20px !important;
+  }
+  
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  
+  .analytics-grid, 
+  .audience-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  
+  .content-creation-container {
+    flex-direction: column !important;
+  }
+  
+  .media-preview-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+  
+  /* Auth pages */
+  .auth-container {
+    grid-template-columns: 1fr 1fr !important;
+  }
+  
+  /* Tour components */
+  .tour-step {
+    max-width: 350px !important;
   }
 }
 
-@media (min-width: 992px) {
+/* Laptop/Desktop styles (992px and above) */
+@media screen and (min-width: 992px) {
+  /* Display utilities */
   .desktop-only {
     display: block;
   }
   
-  .mobile-hide, .tablet-hide {
+  .mobile-only, .tablet-only {
+    display: none;
+  }
+  
+  /* Component specific styles */
+  .dashboard-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .stats-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  
+  .analytics-grid {
+    grid-template-columns: 2fr 1fr;
+  }
+  
+  .audience-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  /* Navigation */
+  .mobile-menu-toggle {
     display: none;
   }
 }
 
-/* Display adjustments for flex containers */
-.mobile-only.flex, .tablet-only.flex, .desktop-only.flex {
-  display: none;
-}
-
-@media (max-width: 576px) {
-  .mobile-only.flex {
-    display: flex;
+/* Dark mode adjustments (optional for future implementation) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Dark mode color variables would go here */
   }
 }
 
-@media (min-width: 577px) and (max-width: 991px) {
-  .tablet-only.flex {
-    display: flex;
+/* Print styles (for analytics reports, etc.) */
+@media print {
+  .app-sidebar, 
+  .app-header, 
+  .no-print {
+    display: none !important;
+  }
+  
+  .app-container {
+    grid-template-columns: 1fr !important;
+    grid-template-areas: "main" !important;
+  }
+  
+  .app-main {
+    padding: 0 !important;
+  }
+  
+  /* Ensure charts and data are properly visible when printed */
+  .chart-container {
+    page-break-inside: avoid;
+    width: 100% !important;
+    height: auto !important;
   }
 }
 
-@media (min-width: 992px) {
-  .desktop-only.flex {
-    display: flex;
+/* Animation classes for smooth transitions */
+.slide-in-left {
+  animation: slideInLeft 0.3s forwards;
+}
+
+.slide-out-left {
+  animation: slideOutLeft 0.3s forwards;
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOutLeft {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Better touch experience for mobile */
+@media (hover: none) {
+  .clickable:hover {
+    background-color: initial !important;
+  }
+  
+  .clickable:active {
+    background-color: rgba(0, 0, 0, 0.1) !important;
   }
 }
