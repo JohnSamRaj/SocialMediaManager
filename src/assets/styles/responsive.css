@@ -1,17 +1,14 @@
 /* Responsive CSS for Social Media Manager */
 
-/* 
-  Device breakpoints:
-  - Mobile: Up to 576px
-  - Tablet: 577px to 991px
-  - Laptop/Desktop: 992px and above
-*/
-
 /* Base styles (for all devices) */
 :root {
   --sidebar-width: 240px;
   --header-height: 64px;
   --content-padding: 24px;
+  --font-size-base: 16px;
+  --font-size-small: 14px;
+  --font-size-heading: 22px;
+  --font-size-subheading: 18px;
 }
 
 /* General responsive utilities */
@@ -27,12 +24,29 @@
   display: block;
 }
 
-/* Mobile styles (up to 576px) */
-@media screen and (max-width: 576px) {
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
   :root {
     --sidebar-width: 0;
     --header-height: 56px;
-    --content-padding: 16px;
+    --content-padding: 12px;
+    --font-size-base: 14px;
+    --font-size-small: 12px;
+    --font-size-heading: 18px;
+    --font-size-subheading: 16px;
+  }
+  
+  /* Typography adjustments for small screens */
+  body {
+    font-size: var(--font-size-base);
+  }
+  
+  h1, h2 {
+    font-size: var(--font-size-heading);
+  }
+  
+  h3, h4 {
+    font-size: var(--font-size-subheading);
   }
   
   /* Display utilities */
@@ -58,7 +72,7 @@
     position: fixed;
     top: var(--header-height);
     left: 0;
-    width: 80%;
+    width: 85%;
     height: calc(100vh - var(--header-height));
     z-index: 1000;
     transition: transform 0.3s ease;
@@ -73,27 +87,45 @@
   }
   
   .app-main {
-    padding: 16px !important;
+    padding: 12px !important;
   }
   
   /* Component specific styles */
   .dashboard-grid {
     grid-template-columns: 1fr !important;
-    gap: 16px !important;
+    gap: 12px !important;
   }
   
   .stats-grid {
     grid-template-columns: 1fr !important;
+    gap: 12px !important;
   }
   
   .post-card {
     width: 100% !important;
+    margin-bottom: 16px !important;
   }
   
   .analytics-grid, 
   .chart-container, 
   .audience-grid {
     grid-template-columns: 1fr !important;
+  }
+
+  /* Chart size adjustments for mobile */
+  .chart-wrapper {
+    height: 250px !important;
+    margin-bottom: 24px !important;
+    overflow-x: auto !important;
+  }
+  
+  .chart-wrapper canvas {
+    min-width: 320px !important;
+  }
+  
+  /* Make sure bar charts aren't too crowded */
+  .bar-chart-container canvas {
+    height: 300px !important;
   }
   
   .content-creation-container,
@@ -102,21 +134,24 @@
   }
   
   .media-preview-grid {
-    grid-template-columns: 1fr 1fr !important;
+    grid-template-columns: 1fr !important;
   }
   
   /* Form elements */
   input, select, textarea {
     font-size: 16px !important; /* Prevents zoom on iOS */
+    padding: 10px !important;
   }
   
   .form-grid {
     grid-template-columns: 1fr !important;
+    gap: 12px !important;
   }
   
   /* Auth pages */
   .auth-container {
     grid-template-columns: 1fr !important;
+    padding: 16px !important;
   }
   
   .auth-hero {
@@ -137,16 +172,100 @@
   
   /* Tour components */
   .tour-step {
-    width: 80% !important;
-    max-width: 300px !important;
+    width: 90% !important;
+    max-width: 290px !important;
+    padding: 16px !important;
+  }
+  
+  .tour-title {
+    font-size: 16px !important;
+  }
+  
+  .tour-text {
+    font-size: 13px !important;
+  }
+  
+  .tour-button {
+    padding: 6px 12px !important;
+    font-size: 13px !important;
   }
 }
 
-/* Tablet styles (577px to 991px) */
-@media screen and (min-width: 577px) and (max-width: 991px) {
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) and (max-width: 767px) {
+  :root {
+    --sidebar-width: 200px;
+    --content-padding: 16px;
+    --font-size-base: 15px;
+    --font-size-small: 13px;
+    --font-size-heading: 20px;
+    --font-size-subheading: 17px;
+  }
+  
+  /* Display utilities */
+  .tablet-only {
+    display: block;
+  }
+  
+  .mobile-only, .desktop-only {
+    display: none;
+  }
+  
+  /* Layout adjustments */
+  .app-main {
+    padding: 16px !important;
+  }
+  
+  /* Component specific styles */
+  .dashboard-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 16px !important;
+  }
+  
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  
+  .analytics-grid {
+    grid-template-columns: 1fr !important;
+  }
+  
+  .audience-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  
+  /* Chart adjustments */
+  .chart-wrapper {
+    height: 280px !important;
+    overflow-x: auto !important;
+  }
+  
+  .content-creation-container {
+    flex-direction: column !important;
+  }
+  
+  .media-preview-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  
+  /* Auth pages */
+  .auth-container {
+    grid-template-columns: 1fr 1fr !important;
+  }
+  
+  /* Tour components */
+  .tour-step {
+    max-width: 320px !important;
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) and (max-width: 991px) {
   :root {
     --sidebar-width: 200px;
     --content-padding: 20px;
+    --font-size-base: 15px;
+    --font-size-small: 13px;
   }
   
   /* Display utilities */
@@ -178,6 +297,11 @@
     grid-template-columns: repeat(2, 1fr) !important;
   }
   
+  /* Chart adjustments */
+  .chart-wrapper {
+    height: 300px !important; 
+  }
+  
   .content-creation-container {
     flex-direction: column !important;
   }
@@ -197,8 +321,8 @@
   }
 }
 
-/* Laptop/Desktop styles (992px and above) */
-@media screen and (min-width: 992px) {
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
   /* Display utilities */
   .desktop-only {
     display: block;
@@ -211,6 +335,7 @@
   /* Component specific styles */
   .dashboard-grid {
     grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
   }
   
   .stats-grid {
@@ -229,12 +354,91 @@
   .mobile-menu-toggle {
     display: none;
   }
+  
+  /* Chart adjustments */
+  .chart-wrapper {
+    height: 350px;
+  }
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+  :root {
+    --sidebar-width: 250px;
+    --content-padding: 32px;
+  }
+  
+  /* Display utilities */
+  .desktop-only {
+    display: block;
+  }
+  
+  .mobile-only, .tablet-only {
+    display: none;
+  }
+  
+  /* Component specific styles */
+  .dashboard-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+  }
+  
+  .stats-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+  
+  .analytics-grid {
+    grid-template-columns: 2fr 1fr;
+    gap: 30px;
+  }
+  
+  .audience-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+  }
+  
+  /* Chart adjustments */
+  .chart-wrapper {
+    height: 400px;
+  }
+  
+  /* Navigation */
+  .mobile-menu-toggle {
+    display: none;
+  }
+  
+  /* Content area spacing */
+  .app-main {
+    padding: 32px;
+  }
 }
 
 /* Dark mode adjustments (optional for future implementation) */
 @media (prefers-color-scheme: dark) {
   :root {
     /* Dark mode color variables would go here */
+  }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Better touch experience for mobile */
+@media (hover: none) {
+  .clickable:hover {
+    background-color: initial !important;
+  }
+  
+  .clickable:active {
+    background-color: rgba(0, 0, 0, 0.1) !important;
   }
 }
 
@@ -287,26 +491,5 @@
   }
   to {
     transform: translateX(-100%);
-  }
-}
-
-/* Accessibility improvements */
-@media (prefers-reduced-motion: reduce) {
-  * {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-}
-
-/* Better touch experience for mobile */
-@media (hover: none) {
-  .clickable:hover {
-    background-color: initial !important;
-  }
-  
-  .clickable:active {
-    background-color: rgba(0, 0, 0, 0.1) !important;
   }
 }

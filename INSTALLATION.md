@@ -90,38 +90,121 @@ social-media-manager/
 │   ├── app/
 │   │   ├── core/              # Core functionality, services, models
 │   │   │   ├── auth/          # Authentication related code
+│   │   │   │   ├── auth.guard.ts     # Route guard for protected routes
+│   │   │   │   └── auth.service.ts   # Authentication service
 │   │   │   ├── models/        # Data models
+│   │   │   │   ├── analytics.model.ts # Analytics data models
+│   │   │   │   ├── post.model.ts      # Post and content models
+│   │   │   │   └── user.model.ts      # User models
 │   │   │   └── services/      # Services for data handling
+│   │   │       ├── ai.service.ts         # AI content generation service
+│   │   │       ├── in-memory-db.service.ts # Mock database service
+│   │   │       ├── instagram.service.ts   # Instagram API service
+│   │   │       └── tour.service.ts       # Onboarding tour service
 │   │   ├── features/          # Feature modules
 │   │   │   ├── analytics/     # Analytics feature
+│   │   │   │   ├── analytics.component.ts  # Analytics dashboard
+│   │   │   │   ├── analytics.component.html
+│   │   │   │   └── analytics.component.css
 │   │   │   ├── auth/          # Authentication feature
+│   │   │   │   ├── auth.component.ts       # Login/Register
+│   │   │   │   ├── auth.component.html
+│   │   │   │   └── auth.component.css
 │   │   │   ├── content-creation/ # Content creation feature
+│   │   │   │   ├── content-creation.component.ts
+│   │   │   │   ├── content-creation.component.html
+│   │   │   │   └── content-creation.component.css
 │   │   │   ├── dashboard/     # Dashboard feature
+│   │   │   │   ├── dashboard.component.ts
+│   │   │   │   ├── dashboard.component.html
+│   │   │   │   └── dashboard.component.css
+│   │   │   ├── notifications/ # Notifications feature
+│   │   │   │   ├── notifications.component.ts
+│   │   │   │   ├── notifications.component.html
+│   │   │   │   └── notifications.component.css
 │   │   │   ├── onboarding/    # Onboarding feature
-│   │   │   └── schedule/      # Schedule feature
+│   │   │   │   ├── onboarding.component.ts
+│   │   │   │   ├── onboarding.component.html
+│   │   │   │   └── onboarding.component.css
+│   │   │   ├── schedule/      # Schedule feature
+│   │   │   │   ├── schedule.component.ts
+│   │   │   │   ├── schedule.component.html
+│   │   │   │   └── schedule.component.css
+│   │   │   └── settings/      # Settings feature
+│   │   │       ├── settings.component.ts
+│   │   │       ├── settings.component.html
+│   │   │       └── settings.component.css
 │   │   ├── shared/            # Shared components and utilities
 │   │   │   └── components/    # Reusable components
+│   │   │       └── tour/      # Tour component for onboarding
 │   │   ├── app.component.*    # Root component
 │   │   └── app.routes.ts      # Application routes
 │   ├── assets/                # Static assets
+│   │   ├── images/            # Image assets
 │   │   └── styles/            # Global styles
-│   │       └── responsive.css # Responsive design styles
+│   │       ├── responsive.css # Responsive design styles
+│   │       └── variables.css  # CSS variables and theme
 │   ├── environments/          # Environment configurations
 │   ├── index.html             # Main HTML file
 │   └── main.ts                # Main entry point
 ├── angular.json               # Angular configuration
+├── INSTALLATION.md            # Installation documentation
 ├── package.json               # Project dependencies
 └── tsconfig.json              # TypeScript configuration
 ```
 
 ## Responsive Design
 
-The application is designed to be responsive across three main device types:
-- **Mobile**: Up to 576px
-- **Tablet**: 577px to 991px
-- **Laptop/Desktop**: 992px and above
+The application is designed to be fully responsive across multiple device sizes using the following breakpoints:
 
-The responsive styles are defined in `src/assets/styles/responsive.css` and are automatically applied to the application.
+- **Extra small devices (phones)**: 600px and down
+- **Small devices (portrait tablets and large phones)**: 600px to 767px
+- **Medium devices (landscape tablets)**: 768px to 991px
+- **Large devices (laptops/desktops)**: 992px to 1199px
+- **Extra large devices (large laptops and desktops)**: 1200px and up
+
+All responsive styles are implemented using the following media query format:
+
+```css
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {...}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {...}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {...}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {...}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {...}
+```
+
+### Responsive Design Features
+
+The responsive design includes:
+
+1. **Dynamic Font Sizes**: Font sizes adjust automatically based on screen size
+   - Base font size: 16px (desktop) down to 14px (mobile)
+   - Heading sizes scale proportionally
+
+2. **Chart Optimizations**: Charts and graphs are properly aligned on all devices
+   - Mobile view: Full width charts with scrollable containers
+   - Tablet view: Optimized 2-column layout
+   - Desktop view: Full analytics dashboard experience
+
+3. **Responsive Grid Layouts**: Grid layouts adjust columns based on available space
+   - Mobile: Single column layout
+   - Tablet: 2-column layout
+   - Desktop: 3-4 column layout
+
+4. **Touch-friendly Interactions**: Larger touch targets on mobile devices with appropriate spacing
+
+5. **Responsive Navigation**: Collapsible sidebar on mobile with hamburger menu toggle
+
+The responsive styles are defined in `src/assets/styles/responsive.css` and are automatically applied throughout the application.
 
 ## Authentication
 
@@ -130,9 +213,36 @@ The application includes a demo authentication system. You can log in using the 
 - **Email**: demo@example.com
 - **Password**: password123
 
+## Application Features
+
+### Dashboard
+The dashboard provides an overview of your social media performance, including recent posts, engagement metrics, and follower growth statistics.
+
+### Content Creation
+The content creation feature allows you to create and edit posts, with AI-assisted caption and hashtag generation. You can upload media, add descriptions, and schedule posts for future publication.
+
+### Analytics
+The analytics dashboard offers detailed metrics on your social media performance, including:
+- Audience growth over time
+- Engagement rates and trends
+- Content performance analysis
+- Audience demographics
+
+### Schedule
+The schedule feature provides a calendar view of your planned content, allowing you to manage and visualize your content strategy across time.
+
+### Notifications
+The notifications page displays activity related to your posts and account, including likes, comments, mentions, and system notifications.
+
+### Settings
+The settings page allows you to configure application preferences, notification settings, security options, and connected accounts.
+
+### Profile
+The profile page lets you manage your personal information, profile picture, and connected social media accounts.
+
 ## Onboarding Tour
 
-For first-time users, the application provides an interactive onboarding tour to guide them through the main features. This tour will automatically start when a user first visits the application.
+For first-time users, the application provides an interactive onboarding tour to guide them through all these main features. This tour will automatically start when a user first logs in for the first time.
 
 ## Troubleshooting
 
