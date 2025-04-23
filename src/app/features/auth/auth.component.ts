@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../core/auth/auth.service';
+import { TourService } from '../../core/services/tour.service';
 
 @Component({
   selector: 'app-auth',
@@ -23,7 +24,8 @@ export class AuthComponent {
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private tourService: TourService
   ) {
     // Redirect to home if already logged in
     if (this.authService.isLoggedIn()) {
@@ -98,6 +100,8 @@ export class AuthComponent {
       password: this.registerForm.value.password
     }).subscribe({
       next: () => {
+        // Mark as a new user who should see the tour
+        localStorage.removeItem('tour_completed');
         this.router.navigate([this.returnUrl]);
       },
       error: (error) => {

@@ -1,0 +1,46 @@
+<div class="tour-container" *ngIf="isActive">
+  <!-- Overlay -->
+  <div class="tour-overlay"></div>
+  
+  <!-- Highlight for target element -->
+  <div class="tour-highlight"></div>
+  
+  <!-- Tour step -->
+  <div class="tour-step" [ngClass]="activeStep ? activeStep.customClass : ''" *ngIf="activeStep">
+    <!-- Close button -->
+    <button class="tour-close" (click)="closeStep()">×</button>
+    
+    <!-- Content -->
+    <div class="tour-content">
+      <h3 class="tour-title">{{ activeStep.title }}</h3>
+      <p class="tour-text">{{ activeStep.content }}</p>
+    </div>
+    
+    <!-- Navigation buttons -->
+    <div class="tour-navigation">
+      <div class="tour-pagination">
+        <span>{{ currentStep + 1 }} / {{ steps.length }}</span>
+      </div>
+      
+      <div class="tour-buttons">
+        <button 
+          class="tour-button tour-button-prev" 
+          (click)="previousStep()" 
+          *ngIf="currentStep > 0"
+        >
+          Previous
+        </button>
+        
+        <button 
+          class="tour-button tour-button-next" 
+          (click)="nextStep()"
+        >
+          {{ currentStep === steps.length - 1 ? 'Finish' : 'Next' }}
+        </button>
+      </div>
+    </div>
+    
+    <!-- Arrow based on position -->
+    <div class="tour-arrow" *ngIf="activeStep.showArrow !== false"></div>
+  </div>
+</div>

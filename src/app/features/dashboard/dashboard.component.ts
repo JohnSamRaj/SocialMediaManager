@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { InstagramService } from '../../core/services/instagram.service';
 import { AuthService } from '../../core/auth/auth.service';
+import { TourService } from '../../core/services/tour.service';
 import { Post, PostStatus } from '../../core/models/post.model';
 import { PostCardComponent } from '../../shared/components/post-card/post-card.component';
 import { ChartComponent } from '../../shared/components/chart/chart.component';
@@ -36,7 +37,8 @@ export class DashboardComponent implements OnInit {
   
   constructor(
     private instagramService: InstagramService,
-    public authService: AuthService
+    public authService: AuthService,
+    private tourService: TourService
   ) { }
   
   // Helper methods for the template
@@ -54,6 +56,13 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadDashboardData();
+    
+    // Start the tour for first-time users after a slight delay to ensure elements are loaded
+    setTimeout(() => {
+      if (!this.tourService.hasCompletedTour()) {
+        this.tourService.startFirstTimeTour();
+      }
+    }, 1500);
   }
 
   loadDashboardData(): void {

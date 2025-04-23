@@ -1,0 +1,355 @@
+/* 
+   Social Media Manager - Responsive Styles
+   Defines responsive breakpoints for:
+   - Mobile: up to 576px
+   - Tablet: 577px to 991px
+   - Laptop/Desktop: 992px and above
+*/
+
+/* Base styles (applied to all devices) */
+:root {
+  --sidebar-width: 240px;
+  --header-height: 60px;
+  --content-padding: 24px;
+}
+
+/* Responsive breakpoints */
+/* Mobile (portrait phones) */
+@media (max-width: 576px) {
+  :root {
+    --sidebar-width: 100%;
+    --content-padding: 16px;
+  }
+  
+  .app-container {
+    flex-direction: column;
+  }
+  
+  .header-container {
+    padding: 0 16px;
+  }
+  
+  .sidebar {
+    position: fixed;
+    top: var(--header-height);
+    left: 0;
+    width: 100%;
+    height: auto;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    z-index: 100;
+  }
+  
+  .sidebar.active {
+    transform: translateX(0);
+  }
+  
+  .main-content {
+    margin-left: 0;
+    padding: 16px;
+  }
+  
+  .menu-toggle {
+    display: flex;
+  }
+  
+  /* Dashboard layout adjustments */
+  .dashboard-overview, 
+  .dashboard-stats,
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .stats-card {
+    padding: 12px;
+  }
+  
+  /* Content creation adjustments */
+  .create-form {
+    grid-template-columns: 1fr;
+  }
+  
+  .media-upload {
+    flex-direction: column;
+  }
+  
+  /* Analytics adjustments */
+  .analytics-header,
+  .metrics-grid,
+  .charts-grid,
+  .demographics-grid,
+  .top-posts-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  /* Schedule adjustments */
+  .schedule-container {
+    flex-direction: column;
+  }
+  
+  .calendar-container {
+    width: 100%;
+  }
+  
+  .schedule-details {
+    width: 100%;
+    margin-top: 20px;
+  }
+  
+  /* Auth page layout */
+  .auth-content {
+    flex-direction: column;
+  }
+  
+  .auth-hero {
+    display: none;
+  }
+  
+  .auth-form-container {
+    width: 100%;
+    max-width: 100%;
+    padding: 20px 16px;
+  }
+  
+  /* Tour adjustments */
+  .tour-step {
+    max-width: 90vw;
+    width: 280px;
+  }
+  
+  .tour-step.welcome-step, 
+  .tour-step.finish-step {
+    width: 90%;
+  }
+}
+
+/* Tablet (landscape phones and tablets) */
+@media (min-width: 577px) and (max-width: 991px) {
+  :root {
+    --sidebar-width: 220px;
+    --content-padding: 20px;
+  }
+  
+  .main-content {
+    margin-left: var(--sidebar-width);
+    padding: 20px;
+  }
+  
+  /* Dashboard layout adjustments */
+  .dashboard-overview, 
+  .dashboard-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .dashboard-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  /* Content creation adjustments */
+  .create-form {
+    grid-template-columns: 1fr;
+  }
+  
+  /* Analytics adjustments */
+  .metrics-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .charts-grid,
+  .demographics-grid,
+  .top-posts-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  /* Schedule adjustments */
+  .schedule-container {
+    flex-direction: column;
+  }
+  
+  .calendar-container {
+    width: 100%;
+  }
+  
+  .schedule-details {
+    width: 100%;
+    margin-top: 20px;
+  }
+  
+  /* Auth page layout */
+  .auth-content {
+    flex-direction: row;
+  }
+  
+  .auth-form-container {
+    width: 50%;
+  }
+  
+  .auth-hero {
+    width: 50%;
+  }
+  
+  /* Tour adjustments */
+  .tour-step {
+    width: 320px;
+  }
+  
+  .tour-step.welcome-step, 
+  .tour-step.finish-step {
+    width: 70%;
+  }
+}
+
+/* Laptop/Desktop (large devices) */
+@media (min-width: 992px) {
+  :root {
+    --sidebar-width: 240px;
+    --content-padding: 24px;
+  }
+  
+  .main-content {
+    margin-left: var(--sidebar-width);
+    padding: 24px;
+  }
+  
+  .menu-toggle {
+    display: none;
+  }
+  
+  /* Dashboard layout adjustments */
+  .dashboard-overview {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  
+  .dashboard-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .dashboard-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  /* Content creation adjustments */
+  .create-form {
+    grid-template-columns: 3fr 1fr;
+  }
+  
+  /* Analytics adjustments */
+  .metrics-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  
+  .charts-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .demographics-grid,
+  .top-posts-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  /* Schedule adjustments */
+  .schedule-container {
+    flex-direction: row;
+  }
+  
+  .calendar-container {
+    width: 65%;
+  }
+  
+  .schedule-details {
+    width: 35%;
+  }
+  
+  /* Auth page layout */
+  .auth-content {
+    flex-direction: row;
+  }
+  
+  .auth-form-container {
+    width: 40%;
+  }
+  
+  .auth-hero {
+    width: 60%;
+  }
+  
+  /* Tour adjustments */
+  .tour-step {
+    width: 350px;
+  }
+  
+  .tour-step.welcome-step {
+    width: 500px;
+  }
+  
+  .tour-step.finish-step {
+    width: 80%;
+    max-width: 800px;
+  }
+}
+
+/* Additional utility classes for responsive helpers */
+.mobile-only {
+  display: none;
+}
+
+.tablet-only {
+  display: none;
+}
+
+.desktop-only {
+  display: none;
+}
+
+@media (max-width: 576px) {
+  .mobile-only {
+    display: block;
+  }
+  
+  .tablet-hide, .desktop-hide {
+    display: none;
+  }
+}
+
+@media (min-width: 577px) and (max-width: 991px) {
+  .tablet-only {
+    display: block;
+  }
+  
+  .mobile-hide, .desktop-hide {
+    display: none;
+  }
+}
+
+@media (min-width: 992px) {
+  .desktop-only {
+    display: block;
+  }
+  
+  .mobile-hide, .tablet-hide {
+    display: none;
+  }
+}
+
+/* Display adjustments for flex containers */
+.mobile-only.flex, .tablet-only.flex, .desktop-only.flex {
+  display: none;
+}
+
+@media (max-width: 576px) {
+  .mobile-only.flex {
+    display: flex;
+  }
+}
+
+@media (min-width: 577px) and (max-width: 991px) {
+  .tablet-only.flex {
+    display: flex;
+  }
+}
+
+@media (min-width: 992px) {
+  .desktop-only.flex {
+    display: flex;
+  }
+}

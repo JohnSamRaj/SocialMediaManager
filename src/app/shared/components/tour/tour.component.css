@@ -1,0 +1,203 @@
+.tour-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.tour-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+.tour-highlight {
+  position: absolute;
+  z-index: 2;
+  border-radius: 4px;
+  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+.tour-step {
+  position: absolute;
+  z-index: 3;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  width: 300px;
+  max-width: 90vw;
+  pointer-events: auto;
+  transition: all 0.3s ease;
+}
+
+.tour-step.welcome-step, .tour-step.finish-step {
+  width: 500px;
+  max-width: 90vw;
+  min-height: 200px;
+  text-align: center;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+}
+
+.tour-step.finish-step {
+  width: 80%;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.tour-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.1);
+  color: rgba(0, 0, 0, 0.5);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tour-close:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.tour-title {
+  margin: 0 0 10px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.tour-text {
+  margin: 0 0 20px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--color-dark);
+}
+
+.tour-navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.tour-pagination {
+  font-size: 12px;
+  color: var(--color-dark);
+  opacity: 0.7;
+}
+
+.tour-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.tour-button {
+  border: none;
+  background-color: transparent;
+  padding: 8px 15px;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.tour-button-prev {
+  color: var(--color-dark);
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.tour-button-prev:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.tour-button-next {
+  color: white;
+  background-color: var(--color-primary);
+}
+
+.tour-button-next:hover {
+  background-color: var(--color-primary-dark, #d97cb4);
+}
+
+.tour-arrow {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: #fff;
+  transform: rotate(45deg);
+  z-index: -1;
+}
+
+.tour-step.top .tour-arrow {
+  bottom: -5px;
+  left: 50%;
+  margin-left: -5px;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+}
+
+.tour-step.bottom .tour-arrow {
+  top: -5px;
+  left: 50%;
+  margin-left: -5px;
+  box-shadow: -2px -2px 2px rgba(0, 0, 0, 0.1);
+}
+
+.tour-step.left .tour-arrow {
+  right: -5px;
+  top: 50%;
+  margin-top: -5px;
+  box-shadow: 2px -2px 2px rgba(0, 0, 0, 0.1);
+}
+
+.tour-step.right .tour-arrow {
+  left: -5px;
+  top: 50%;
+  margin-top: -5px;
+  box-shadow: -2px 2px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* For special steps without arrows */
+.tour-step.welcome-step .tour-arrow,
+.tour-step.finish-step .tour-arrow {
+  display: none;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .tour-step {
+    width: 250px;
+  }
+  
+  .tour-step.welcome-step, .tour-step.finish-step {
+    width: 90%;
+  }
+}
+
+/* Style for the body when tour is active */
+:host-context(body.tour-active) {
+  overflow: hidden;
+}
