@@ -1,13 +1,13 @@
 /* Global Styles */
 :root {
-  --color-primary: #f79ed8;
-  --color-secondary: #c17da9;
-  --color-tertiary: #8c5c7b;
-  --color-dark: #563b4c;
-  --color-darkest: #201a1e;
-  --color-background: #fcf6f9;
-  --color-text: #201a1e;
-  --color-text-light: #fcf6f9;
+  --color-primary: #F14F0A;
+  --color-secondary: #F27E0A;
+  --color-tertiary: #F2A10A;
+  --color-dark: #F2D70A;
+  --color-darkest: #333333;
+  --color-background: #EDEACC;
+  --color-text: #333333;
+  --color-text-light: #FFFFFF;
   --color-shadow: rgba(0, 0, 0, 0.1);
   --border-radius: 8px;
   --spacing-xs: 4px;
@@ -121,7 +121,7 @@ input, textarea, select {
 input:focus, textarea:focus, select:focus {
   outline: none;
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 2px rgba(247, 158, 216, 0.3);
+  box-shadow: 0 0 0 2px rgba(241, 79, 10, 0.3);
 }
 
 label {

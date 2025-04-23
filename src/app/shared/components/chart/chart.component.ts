@@ -80,11 +80,11 @@ export class ChartComponent implements AfterViewInit {
     
     // Apply brand colors
     const brandColors = [
-      '#f79ed8',
-      '#c17da9',
-      '#8c5c7b',
-      '#563b4c',
-      '#201a1e'
+      '#F14F0A',
+      '#F27E0A',
+      '#F2A10A',
+      '#F2D70A',
+      '#EDEACC'
     ];
     
     // Set default colors if not provided

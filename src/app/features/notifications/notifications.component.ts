@@ -140,63 +140,44 @@ export class NotificationsComponent implements OnInit {
   }
   
   getFilteredNotifications(): Notification[] {
-    switch (this.activeFilter) {
-      case 'unread':
-        return this.notifications.filter(notification => !notification.read);
-      case 'mentions':
-        return this.notifications.filter(notification => notification.type === 'mention');
-      case 'system':
-        return this.notifications.filter(notification => notification.type === 'system');
-      default:
-        return this.notifications;
-    }
+    const filterMap: {[key: string]: (notification: Notification) => boolean} = {
+      'unread': notification => !notification.read,
+      'mentions': notification => notification.type === 'mention',
+      'system': notification => notification.type === 'system',
+      'all': () => true
+    };
+    
+    return this.notifications.filter(filterMap[this.activeFilter]);
   }
   
   getTimeAgo(date: Date): string {
     const seconds = Math.floor((new Date().getTime() - date.getTime()) / 1000);
-  
-    let interval = Math.floor(seconds / 31536000);
-    if (interval >= 1) {
-      return interval === 1 ? '1 year ago' : `${interval} years ago`;
+    const intervals = {
+      year: 31536000,
+      month: 2592000,
+      day: 86400,
+      hour: 3600,
+      minute: 60
+    };
+    
+    for (const [unit, secondsInUnit] of Object.entries(intervals)) {
+      const interval = Math.floor(seconds / secondsInUnit);
+      if (interval >= 1) {
+        return interval === 1 ? `1 ${unit} ago` : `${interval} ${unit}s ago`;
+      }
     }
-  
-    interval = Math.floor(seconds / 2592000);
-    if (interval >= 1) {
-      return interval === 1 ? '1 month ago' : `${interval} months ago`;
-    }
-  
-    interval = Math.floor(seconds / 86400);
-    if (interval >= 1) {
-      return interval === 1 ? '1 day ago' : `${interval} days ago`;
-    }
-  
-    interval = Math.floor(seconds / 3600);
-    if (interval >= 1) {
-      return interval === 1 ? '1 hour ago' : `${interval} hours ago`;
-    }
-  
-    interval = Math.floor(seconds / 60);
-    if (interval >= 1) {
-      return interval === 1 ? '1 minute ago' : `${interval} minutes ago`;
-    }
-  
+    
     return seconds < 5 ? 'just now' : `${Math.floor(seconds)} seconds ago`;
   }
   
   getNotificationIcon(type: string): string {
-    switch (type) {
-      case 'like':
-        return 'fa-heart';
-      case 'comment':
-        return 'fa-comment';
-      case 'follow':
-        return 'fa-user-plus';
-      case 'mention':
-        return 'fa-at';
-      case 'system':
-        return 'fa-bell';
-      default:
-        return 'fa-bell';
-    }
+    const iconMap: {[key: string]: string} = {
+      'like': 'fa-heart',
+      'comment': 'fa-comment',
+      'follow': 'fa-user-plus',
+      'mention': 'fa-at',
+      'system': 'fa-bell'
+    };
+    return iconMap[type] || 'fa-bell';
   }
 }

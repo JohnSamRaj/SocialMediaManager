@@ -168,6 +168,8 @@
   border-radius: var(--border-radius);
   padding: var(--spacing-md);
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  overflow-x: auto;
+  min-height: 400px;
 }
 
 .chart-header {
@@ -399,6 +401,10 @@
   .charts-row, .demographics-grid {
     grid-template-columns: 1fr;
   }
+  
+  .chart-container {
+    min-height: 350px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -411,10 +417,41 @@
   .overview-stats {
     grid-template-columns: 1fr 1fr;
   }
+  
+  .chart-container {
+    min-height: 300px;
+    min-width: 300px;
+    margin-bottom: var(--spacing-md);
+  }
+  
+  .chart-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-xs);
+  }
+  
+  .demographics-grid {
+    gap: var(--spacing-lg);
+  }
 }
 
 @media (max-width: 576px) {
   .overview-stats {
     grid-template-columns: 1fr;
+  }
+  
+  .chart-container {
+    min-height: 250px;
+    padding: var(--spacing-sm);
+  }
+  
+  /* Make sure charts don't get too small on mobile */
+  .chart-container canvas {
+    min-width: 250px !important;
+    height: auto !important;
+  }
+  
+  .gender-chart {
+    height: 150px;
   }
 }
