@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { InstagramService } from '../../core/services/instagram.service';
@@ -22,7 +22,7 @@ import { Post, PostType } from '../../core/models/post.model';
   templateUrl: './analytics.component.html',
   styleUrls: ['./analytics.component.css']
 })
-export class AnalyticsComponent implements OnInit {
+export class AnalyticsComponent implements OnInit, OnDestroy {
   analytics: AnalyticsOverview | null = null;
   topPerformingPosts: Post[] = [];
   selectedTimeframe: string = '30days';
@@ -61,6 +61,18 @@ export class AnalyticsComponent implements OnInit {
   ngOnInit(): void {
     this.loadAnalytics();
   }
+  
+  ngOnDestroy(): void {
+    // Cleanup if needed - implementation required by OnDestroy interface
+  }
+  
+  @HostListener('window:resize')
+  onWindowResize(): void {
+    // Redraw charts on window resize to adapt to new screen size
+    if (this.analytics) {
+      this.prepareChartData();
+    }
+  }
 
   loadAnalytics(): void {
     this.isLoading = true;
@@ -98,13 +110,44 @@ export class AnalyticsComponent implements OnInit {
   prepareChartData(): void {
     if (!this.analytics) return;
 
-    // Follower Growth Chart
-    const growthDates = this.analytics.accountGrowth.map(item => 
+    // Determine if we're on mobile view
+    const isMobile = window.innerWidth <= 768;
+    
+    // Follower Growth Chart - reduce data points on mobile
+    let accountGrowthData = [...this.analytics.accountGrowth];
+    
+    // For mobile view, reduce the number of data points to avoid crowding
+    if (isMobile && accountGrowthData.length > 5) {
+      // For small screens, only keep first, last, and a few key points in between
+      const dataLength = accountGrowthData.length;
+      if (dataLength > 7) {
+        // Keep first, last, and only a few strategic points
+        const firstItem = accountGrowthData[0];
+        const lastItem = accountGrowthData[dataLength - 1];
+        
+        // Pick ~3 evenly spaced points from the middle
+        const midPoints = [];
+        const stride = Math.floor(dataLength / 4);
+        for (let i = 1; i < 4; i++) {
+          const index = i * stride;
+          if (index > 0 && index < dataLength - 1) {
+            midPoints.push(accountGrowthData[index]);
+          }
+        }
+        
+        accountGrowthData = [firstItem, ...midPoints, lastItem];
+      } else {
+        // For fewer points, just show odd indices
+        accountGrowthData = accountGrowthData.filter((_, index) => index % 2 === 0);
+      }
+    }
+    
+    const growthDates = accountGrowthData.map(item => 
       new Date(item.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
     );
 
-    const followerCounts = this.analytics.accountGrowth.map(item => item.followers);
-    const growthRates = this.analytics.accountGrowth.map(item => item.followersGrowthPercentage);
+    const followerCounts = accountGrowthData.map(item => item.followers);
+    const growthRates = accountGrowthData.map(item => item.followersGrowthPercentage);
 
     this.followerGrowthData = {
       labels: growthDates,
@@ -112,8 +155,8 @@ export class AnalyticsComponent implements OnInit {
         {
           label: 'Followers',
           data: followerCounts,
-          borderColor: '#2F2519',
-          backgroundColor: 'rgba(247, 158, 216, 0.2)',
+          borderColor: '#F14F0A', // Using brand color from requirements
+          backgroundColor: 'rgba(242, 127, 10, 0.2)', // Using brand color with transparency
           tension: 0.4,
           yAxisID: 'y',
           fill: true
@@ -121,8 +164,8 @@ export class AnalyticsComponent implements OnInit {
         {
           label: 'Growth Rate (%)',
           data: growthRates,
-          borderColor: '#2F2519',
-          backgroundColor: 'rgba(140, 92, 123, 0.5)',
+          borderColor: '#F2A10A', // Using brand color from requirements
+          backgroundColor: 'rgba(242, 215, 10, 0.5)', // Using brand color with transparency
           borderDash: [5, 5],
           tension: 0.4,
           yAxisID: 'y1',

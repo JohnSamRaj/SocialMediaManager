@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MediaItem } from '../../../core/models/post.model';
 
@@ -20,7 +20,7 @@ export class InstagramPreviewComponent implements OnChanges {
   formattedHashtags: string = '';
   currentSlide: number = 0;
   
-  constructor() { }
+  constructor(private cdr: ChangeDetectorRef) { }
   
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['caption'] || changes['hashtags']) {
@@ -51,6 +51,43 @@ export class InstagramPreviewComponent implements OnChanges {
   
   get currentMedia(): MediaItem | null {
     return this.mediaItems.length > 0 ? this.mediaItems[this.currentSlide] : null;
+  }
+  
+  // Cache for media orientations to avoid recalculation
+  private mediaOrientationCache: Map<string, string> = new Map();
+  
+  // Detect media orientation for proper display (portrait, landscape, or square)
+  getMediaOrientation(media: MediaItem): string {
+    // Return from cache if already calculated
+    if (this.mediaOrientationCache.has(media.id)) {
+      return this.mediaOrientationCache.get(media.id)!;
+    }
+    
+    // Default to square until we can determine the actual orientation
+    this.mediaOrientationCache.set(media.id, 'square');
+    
+    if (media.type === 'image') {
+      const img = new Image();
+      
+      // When the image loads, calculate and cache its orientation
+      img.onload = () => {
+        let orientation = 'square';
+        
+        if (img.naturalWidth > img.naturalHeight) {
+          orientation = 'landscape';
+        } else if (img.naturalWidth < img.naturalHeight) {
+          orientation = 'portrait';
+        }
+        
+        this.mediaOrientationCache.set(media.id, orientation);
+        // Trigger change detection to update the UI
+        this.cdr.detectChanges();
+      };
+      
+      img.src = media.url;
+    }
+    
+    return this.mediaOrientationCache.get(media.id)!;
   }
   
   get formattedDate(): string {

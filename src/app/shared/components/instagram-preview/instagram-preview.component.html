@@ -17,10 +17,23 @@
       </div>
     </div>
     
-    <!-- Display current media (image or video) -->
+    <!-- Display current media (image or video) with proper aspect ratio handling -->
     <ng-container *ngIf="currentMedia">
-      <img *ngIf="currentMedia.type === 'image'" [src]="currentMedia.url" alt="Post image">
-      <video *ngIf="currentMedia.type === 'video'" [src]="currentMedia.url" controls></video>
+      <div class="media-container">
+        <!-- Images -->
+        <img *ngIf="currentMedia.type === 'image'" 
+             [src]="currentMedia.url" 
+             alt="Post image"
+             class="instagram-media"
+             [ngClass]="getMediaOrientation(currentMedia)">
+        
+        <!-- Videos -->
+        <video *ngIf="currentMedia.type === 'video'" 
+               [src]="currentMedia.url" 
+               controls
+               class="instagram-media"
+               [ngClass]="getMediaOrientation(currentMedia)"></video>
+      </div>
     </ng-container>
     
     <!-- Carousel navigation (only if multiple media items) -->

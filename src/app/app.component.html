@@ -7,7 +7,7 @@
   </app-header>
   
   <div class="content-wrapper">
-    <app-sidebar *ngIf="authService.isLoggedIn()" [ngClass]="{'show': isSidebarOpen}"></app-sidebar>
+    <app-sidebar *ngIf="authService.isLoggedIn()" [ngClass]="{'show': isSidebarOpen}" (closeMobileSidebar)="toggleSidebar()"></app-sidebar>
     <div class="sidebar-overlay" [ngClass]="{'active': isSidebarOpen}" (click)="toggleSidebar()"></div>
     
     <main class="main-content">

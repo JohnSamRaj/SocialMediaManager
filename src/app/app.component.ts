@@ -33,6 +33,14 @@ export class AppComponent implements OnInit {
   
   ngOnInit(): void {
     // The tour service will automatically start the tour for first-time users
+    
+    // Listen for content creation page load to auto-collapse sidebar
+    document.addEventListener('content-creation-loaded', () => {
+      // Only collapse if sidebar is open
+      if (this.isSidebarOpen) {
+        this.toggleSidebar();
+      }
+    });
   }
   
   /**

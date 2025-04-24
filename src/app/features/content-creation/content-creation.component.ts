@@ -106,6 +106,11 @@ export class ContentCreationComponent implements OnInit {
     
     // Load drafts
     this.loadDrafts();
+    
+    // Trigger sidebar collapse on component init
+    setTimeout(() => {
+      document.dispatchEvent(new CustomEvent('content-creation-loaded'));
+    }, 100);
   }
   
   loadPostForEditing(postId: string): void {

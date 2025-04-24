@@ -36,14 +36,49 @@
 .post-content {
   position: relative;
   width: 100%;
-  background-color: #fafafa;
+  background-color: #000;
+  aspect-ratio: 1/1; /* Instagram square container format */
+  overflow: hidden;
 }
 
-.post-content img, .post-content video {
+.media-container {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  max-height: 350px;
-  object-fit: contain;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.instagram-media {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain; /* Keep aspect ratio of media */
   display: block;
+  width: auto; /* Let the browser calculate the width */
+  height: auto; /* Let the browser calculate the height */
+  margin: auto;
+  transition: all 0.3s ease;
+}
+
+/* For portrait images */
+.instagram-media.portrait {
+  max-height: 100%;
+  width: auto;
+}
+
+/* For landscape images */
+.instagram-media.landscape {
+  max-width: 100%;
+  height: auto;
+}
+
+/* For square images */
+.instagram-media.square {
+  max-width: 100%;
+  max-height: 100%;
 }
 
 .carousel-navigation {
@@ -166,7 +201,7 @@
     font-size: 20px;
   }
   
-  .post-content img, .post-content video {
-    max-height: 300px;
+  .post-content {
+    aspect-ratio: 1/1; /* Maintain aspect ratio on mobile */
   }
 }

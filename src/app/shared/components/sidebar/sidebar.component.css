@@ -48,6 +48,25 @@
   color: var(--color-primary);
 }
 
+/* Mobile/Desktop only utilities */
+.mobile-only {
+  display: none;
+}
+
+.desktop-only {
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .mobile-only {
+    display: block;
+  }
+  
+  .desktop-only {
+    display: none;
+  }
+}
+
 .sidebar-nav {
   flex: 1;
   padding: 1rem 0;

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 
@@ -18,6 +18,7 @@ interface NavItem {
 })
 export class SidebarComponent {
   isCollapsed = false;
+  @Output() closeMobileSidebar = new EventEmitter<void>();
   
   navItems: NavItem[] = [
     { label: 'Dashboard', icon: 'fa-chart-pie', route: '/dashboard', active: false },
@@ -44,5 +45,18 @@ export class SidebarComponent {
     this.navItems.forEach(item => {
       item.active = url.includes(item.route);
     });
+  }
+  
+  // Close mobile sidebar when clicking a navigation item
+  onNavItemClick(): void {
+    // Check if we're on mobile view by window width
+    if (window.innerWidth <= 768) {
+      this.closeMobileSidebar.emit();
+    }
+  }
+  
+  // Handle closing the sidebar with close button on mobile
+  closeSidebar(): void {
+    this.closeMobileSidebar.emit();
   }
 }

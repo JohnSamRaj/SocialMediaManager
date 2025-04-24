@@ -111,7 +111,15 @@
                   drawOnChartArea: false
                 }
               }
-            }
+            },
+            plugins: {
+              legend: {
+                labels: {
+                  color: 'var(--color-dark)'
+                }
+              }
+            },
+            backgroundColor: 'var(--color-background)'
           }"
         ></app-chart>
       </div>
@@ -188,7 +196,7 @@
           <h3>Gender</h3>
           <div class="gender-chart">
             <div class="gender-item" *ngFor="let gender of analytics?.audienceDemographics?.genders || []">
-              <div class="gender-percentage" [style.height.%]="gender.percentage">
+              <div class="gender-percentage" [ngStyle]="{'height': gender.percentage + '%', 'max-height': '150px'}">
                 <span>{{ gender.percentage }}%</span>
               </div>
               <div class="gender-label">{{ gender.gender }}</div>
