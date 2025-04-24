@@ -55,6 +55,30 @@
       </div>
 
       <!-- Media Upload Section -->
+      <!-- Platform Selection -->
+      <div class="form-section">
+        <h3>Platform</h3>
+        <div class="platform-selection">
+          <label class="platform-option">
+            <input type="checkbox" name="instagram" checked disabled>
+            <i class="fab fa-instagram"></i>
+            <span>Instagram</span>
+          </label>
+          <label class="platform-option disabled">
+            <input type="checkbox" name="facebook" disabled>
+            <i class="fab fa-facebook"></i>
+            <span>Facebook</span>
+            <small>(coming soon)</small>
+          </label>
+          <label class="platform-option disabled">
+            <input type="checkbox" name="twitter" disabled>
+            <i class="fab fa-twitter"></i>
+            <span>Twitter</span>
+            <small>(coming soon)</small>
+          </label>
+        </div>
+      </div>
+        
       <div class="form-section">
         <h3>Media</h3>
         <div class="media-upload-area" [class.has-error]="mediaUploadError" *ngIf="newPost.mediaItems.length === 0">

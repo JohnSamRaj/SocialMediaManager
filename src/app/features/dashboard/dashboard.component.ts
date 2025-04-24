@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { InstagramService } from '../../core/services/instagram.service';
@@ -6,6 +6,8 @@ import { AuthService } from '../../core/auth/auth.service';
 import { TourService } from '../../core/services/tour.service';
 import { Post, PostStatus } from '../../core/models/post.model';
 import { PostCardComponent } from '../../shared/components/post-card/post-card.component';
+import { OnboardingModalComponent } from '../../shared/components/onboarding-modal/onboarding-modal.component';
+import { AddPlatformModalComponent } from '../../shared/components/add-platform-modal/add-platform-modal.component';
 // import { ChartComponent } from '../../shared/components/chart/chart.component';
 
 @Component({
@@ -15,6 +17,8 @@ import { PostCardComponent } from '../../shared/components/post-card/post-card.c
     CommonModule,
     RouterModule,
     PostCardComponent,
+    OnboardingModalComponent,
+    AddPlatformModalComponent,
     // ChartComponent
   ],
   templateUrl: './dashboard.component.html',
@@ -31,6 +35,11 @@ export class DashboardComponent implements OnInit {
 
   isLoading = true;
   error: string | null = null;
+  hasConnectedAccounts = false; // Flag to determine if user has connected social media accounts
+
+  // References to modal components
+  @ViewChild(OnboardingModalComponent) onboardingModal!: OnboardingModalComponent;
+  @ViewChild(AddPlatformModalComponent) addPlatformModal!: AddPlatformModalComponent;
 
   // For enum access in template
   PostStatus = PostStatus;
@@ -54,16 +63,7 @@ export class DashboardComponent implements OnInit {
     return this.posts.filter(post => post.status === PostStatus.PUBLISHED).length;
   }
 
-  ngOnInit(): void {
-    this.loadDashboardData();
-
-    // Start the tour for first-time users after a slight delay to ensure elements are loaded
-    setTimeout(() => {
-      if (!this.tourService.hasCompletedTour()) {
-        this.tourService.startFirstTimeTour();
-      }
-    }, 1500);
-  }
+  // ngOnInit moved to the bottom of the class
 
   loadDashboardData(): void {
     this.isLoading = true;
@@ -197,5 +197,46 @@ export class DashboardComponent implements OnInit {
         console.error('Error scheduling post:', err);
       }
     });
+  }
+
+  /**
+   * Opens the onboarding modal
+   */
+  openOnboardingModal(): void {
+    if (this.onboardingModal) {
+      this.onboardingModal.show();
+    }
+  }
+
+  /**
+   * Opens the add platform modal for a specific platform
+   * @param platformId The ID of the platform to connect
+   */
+  openConnectAccountModal(platformId: string): void {
+    if (this.addPlatformModal) {
+      this.addPlatformModal.show(platformId);
+    }
+  }
+
+  /**
+   * Check if the user has connected accounts and
+   * Update the hasConnectedAccounts flag accordingly
+   */
+  checkConnectedAccounts(): void {
+    // For demo purposes, we're hardcoding this to false
+    // In a real implementation, this would check with a service
+    this.hasConnectedAccounts = false;
+  }
+
+  ngOnInit(): void {
+    this.loadDashboardData();
+    this.checkConnectedAccounts();
+
+    // Start the tour for first-time users after a slight delay to ensure elements are loaded
+    setTimeout(() => {
+      if (!this.tourService.hasCompletedTour()) {
+        this.tourService.startFirstTimeTour();
+      }
+    }, 1500);
   }
 }

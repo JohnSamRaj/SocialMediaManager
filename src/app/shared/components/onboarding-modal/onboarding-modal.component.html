@@ -12,6 +12,34 @@
         <img [src]="steps[currentStep].image" alt="Onboarding illustration">
       </div>
       <p>{{ steps[currentStep].content }}</p>
+      
+      <!-- Platform Connection Step -->
+      <div class="platform-connection" *ngIf="steps[currentStep].isConnectionStep">
+        <div class="platforms-grid">
+          <div *ngFor="let platform of steps[currentStep].platforms" 
+               class="platform-item" 
+               [ngClass]="{'connectable': platform.connectable, 'not-connectable': !platform.connectable}">
+            <div class="platform-icon">
+              <i [class]="platform.icon"></i>
+            </div>
+            <div class="platform-details">
+              <h4>{{ platform.name }}</h4>
+              <button *ngIf="platform.connectable" class="connect-button">Connect</button>
+              <span *ngIf="!platform.connectable" class="coming-soon">Coming Soon</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Requirements List -->
+      <div class="requirements-list" *ngIf="steps[currentStep].requirements">
+        <ul>
+          <li *ngFor="let requirement of steps[currentStep].requirements">
+            <i class="fas fa-check-circle"></i>
+            <span>{{ requirement }}</span>
+          </li>
+        </ul>
+      </div>
     </div>
     
     <div class="onboarding-footer">

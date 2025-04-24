@@ -27,6 +27,7 @@ export class SidebarComponent {
   
   @Output() closeMobileSidebar = new EventEmitter<void>();
   @Output() addAccountClicked = new EventEmitter<void>();
+  @Output() sidebarCollapsedChange = new EventEmitter<boolean>();
   
   navItems: NavItem[] = [
     { label: 'Dashboard', icon: 'fa-chart-pie', route: '/dashboard', active: false },
@@ -47,6 +48,7 @@ export class SidebarComponent {
 
   toggleSidebar(): void {
     this.isCollapsed = !this.isCollapsed;
+    this.sidebarCollapsedChange.emit(this.isCollapsed);
   }
 
   setActiveRoute(url: string): void {
@@ -90,6 +92,7 @@ export class SidebarComponent {
   // Close the dropdown when clicking outside
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent): void {
+    // Handle platform dropdown closing
     const platformSelector = document.querySelector('.platform-selector');
     const platformDropdown = document.querySelector('.platform-dropdown');
     
@@ -99,6 +102,19 @@ export class SidebarComponent {
       
       if (!clickedInside && this.showPlatformDropdown) {
         this.showPlatformDropdown = false;
+      }
+    }
+    
+    // Handle sidebar closing on mobile when clicking outside
+    const sidebar = document.querySelector('.sidebar');
+    const mobileToggle = document.querySelector('.mobile-toggle');
+    
+    if (sidebar && mobileToggle && window.innerWidth <= 768) {
+      const clickedInsideSidebar = sidebar.contains(event.target as Node);
+      const clickedToggle = mobileToggle.contains(event.target as Node);
+      
+      if (!clickedInsideSidebar && !clickedToggle && !this.isCollapsed) {
+        this.closeMobileSidebar.emit();
       }
     }
   }

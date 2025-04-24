@@ -71,7 +71,141 @@
   font-size: 1rem;
   line-height: 1.6;
   color: #555;
+  margin: 0 0 20px 0;
+}
+
+/* Platform Connection Styles */
+.platform-connection {
+  margin-top: 20px;
+}
+
+.platforms-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.platform-item {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+
+.platform-item.connectable {
+  cursor: pointer;
+}
+
+.platform-item.connectable:hover {
+  border-color: #F14F0A;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+.platform-item.not-connectable {
+  opacity: 0.6;
+  background-color: #f9f9f9;
+}
+
+.platform-icon {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: #f5f5f5;
+}
+
+.platform-item .fa-instagram {
+  color: #C13584;
+}
+
+.platform-item .fa-facebook {
+  color: #4267B2;
+}
+
+.platform-item .fa-twitter {
+  color: #1DA1F2;
+}
+
+.platform-item .fa-linkedin {
+  color: #0077B5;
+}
+
+.platform-details {
+  text-align: center;
+  width: 100%;
+}
+
+.platform-details h4 {
+  margin: 0 0 10px 0;
+  font-size: 1rem;
+  color: #333;
+}
+
+.connect-button {
+  background-color: #F14F0A;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.2s;
+}
+
+.connect-button:hover {
+  background-color: #F27E0A;
+}
+
+.coming-soon {
+  font-size: 0.75rem;
+  color: #888;
+  display: block;
+  margin-top: 5px;
+}
+
+/* Requirements List Styles */
+.requirements-list {
+  margin-top: 20px;
+  text-align: left;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  padding: 15px;
+}
+
+.requirements-list ul {
+  list-style-type: none;
+  padding: 0;
   margin: 0;
+}
+
+.requirements-list li {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.requirements-list li:last-child {
+  margin-bottom: 0;
+}
+
+.requirements-list i {
+  color: #4CAF50;
+  margin-right: 10px;
+  margin-top: 2px;
+}
+
+.requirements-list span {
+  font-size: 0.95rem;
+  color: #555;
+  line-height: 1.4;
 }
 
 .onboarding-footer {

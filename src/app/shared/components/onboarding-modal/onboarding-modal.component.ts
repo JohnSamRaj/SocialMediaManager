@@ -6,6 +6,14 @@ interface OnboardingStep {
   title: string;
   content: string;
   image?: string;
+  isConnectionStep?: boolean;
+  platforms?: {
+    id: string;
+    name: string;
+    icon: string;
+    connectable: boolean;
+  }[];
+  requirements?: string[];
 }
 
 @Component({
@@ -28,6 +36,48 @@ export class OnboardingModalComponent {
       image: 'assets/images/onboarding/welcome.svg'
     },
     {
+      title: 'Connect Your Accounts',
+      content: 'First, let\'s connect your social media accounts to get started. Select which platforms you want to manage.',
+      image: 'assets/images/onboarding/platforms.svg',
+      isConnectionStep: true,
+      platforms: [
+        {
+          id: 'instagram',
+          name: 'Instagram',
+          icon: 'fab fa-instagram',
+          connectable: true
+        },
+        {
+          id: 'facebook',
+          name: 'Facebook',
+          icon: 'fab fa-facebook',
+          connectable: false
+        },
+        {
+          id: 'twitter',
+          name: 'Twitter',
+          icon: 'fab fa-twitter',
+          connectable: false
+        },
+        {
+          id: 'linkedin',
+          name: 'LinkedIn',
+          icon: 'fab fa-linkedin',
+          connectable: false
+        }
+      ]
+    },
+    {
+      title: 'Instagram Requirements',
+      content: 'To connect your Instagram account, please make sure you meet the following requirements:',
+      requirements: [
+        'Your Instagram account must be a Business or Creator account',
+        'Your Instagram account must be connected to a Facebook page',
+        'You must have admin access to the Facebook page connected to your Instagram account',
+        'Your Instagram account must comply with Meta\'s Platform Terms'
+      ]
+    },
+    {
       title: 'Create & Schedule Content',
       content: 'Easily create, schedule, and publish content to your social media accounts. Our AI-powered tools help you create engaging captions and hashtags.',
       image: 'assets/images/onboarding/content.svg'
@@ -36,11 +86,6 @@ export class OnboardingModalComponent {
       title: 'Track Performance',
       content: 'Monitor your account growth, engagement metrics, and content performance all in one place with our powerful analytics dashboard.',
       image: 'assets/images/onboarding/analytics.svg'
-    },
-    {
-      title: 'Connect Multiple Platforms',
-      content: 'Add and manage accounts from different social media platforms including Instagram, Facebook, Twitter, LinkedIn, and more.',
-      image: 'assets/images/onboarding/platforms.svg'
     },
     {
       title: 'Let\'s Get Started!',

@@ -13,9 +13,15 @@
 .main-content {
   flex: 1;
   padding: var(--spacing-md);
+  margin-left: 250px; /* Match sidebar width */
   overflow-y: auto;
   background-color: var(--color-background);
   transition: all 0.3s ease;
+}
+
+/* Adjust the margin when sidebar is collapsed */
+.collapsed-sidebar .main-content {
+  margin-left: 70px; /* Match collapsed sidebar width */
 }
 
 /* Mobile menu toggle button */

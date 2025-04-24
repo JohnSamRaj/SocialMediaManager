@@ -66,9 +66,16 @@ export class AddPlatformModalComponent {
     }
   ];
   
-  show(): void {
+  show(platformId?: string): void {
     this.isVisible = true;
     document.body.classList.add('no-scroll');
+    
+    // If a platformId is provided, directly attempt to connect that platform
+    if (platformId) {
+      setTimeout(() => {
+        this.connectPlatform(platformId);
+      }, 500);
+    }
   }
   
   hide(): void {

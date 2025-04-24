@@ -137,6 +137,69 @@
   margin-bottom: var(--spacing-md);
 }
 
+/* Platform Selection Styles */
+.platform-selection {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+}
+
+.platform-option {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: var(--border-radius);
+  padding: var(--spacing-sm) var(--spacing-md);
+  cursor: pointer;
+  transition: var(--transition-normal);
+}
+
+.platform-option:hover {
+  border-color: var(--color-primary);
+  background-color: rgba(255, 103, 1, 0.05);
+}
+
+.platform-option.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.platform-option.disabled:hover {
+  border-color: #ddd;
+  background-color: #fff;
+}
+
+.platform-option input[type="checkbox"] {
+  margin-right: var(--spacing-xs);
+}
+
+.platform-option i {
+  font-size: 1.2rem;
+  width: 20px;
+  text-align: center;
+}
+
+.platform-option i.fa-instagram {
+  color: #C13584;
+}
+
+.platform-option i.fa-facebook {
+  color: #4267B2;
+}
+
+.platform-option i.fa-twitter {
+  color: #1DA1F2;
+}
+
+.platform-option small {
+  font-size: 0.75rem;
+  opacity: 0.7;
+  margin-left: var(--spacing-xs);
+}
+
 /* Media Upload */
 .media-upload-area {
   border: 2px dashed #e0e0e0;

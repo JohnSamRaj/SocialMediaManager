@@ -6,9 +6,15 @@
     </button>
   </app-header>
   
-  <div class="content-wrapper">
-    <app-sidebar *ngIf="authService.isLoggedIn()" [ngClass]="{'show': isSidebarOpen}" (closeMobileSidebar)="toggleSidebar()" (addAccountClicked)="openAddPlatformModal()"></app-sidebar>
-    <div class="sidebar-overlay" [ngClass]="{'active': isSidebarOpen}" (click)="toggleSidebar()"></div>
+  <div class="content-wrapper" [ngClass]="{'collapsed-sidebar': isSidebarCollapsed}">
+    <app-sidebar 
+      *ngIf="authService.isLoggedIn()" 
+      [ngClass]="{'show': isSidebarOpen, 'collapsed': isSidebarCollapsed}" 
+      (closeMobileSidebar)="closeSidebar()"
+      (addAccountClicked)="openAddPlatformModal()"
+      (sidebarCollapsedChange)="onSidebarCollapsedChange($event)">
+    </app-sidebar>
+    <div class="sidebar-overlay" [ngClass]="{'active': isSidebarOpen}" (click)="closeSidebar()"></div>
     
     <main class="main-content">
       <router-outlet></router-outlet>

@@ -29,6 +29,7 @@ import { TourService } from './core/services/tour.service';
 export class AppComponent implements OnInit {
   title = 'Social Media Manager';
   isSidebarOpen = false;
+  isSidebarCollapsed = false;
   
   @ViewChild(AddPlatformModalComponent) addPlatformModal!: AddPlatformModalComponent;
   @ViewChild(OnboardingModalComponent) onboardingModal!: OnboardingModalComponent;
@@ -103,5 +104,20 @@ export class AppComponent implements OnInit {
     if (this.onboardingModal) {
       this.onboardingModal.show();
     }
+  }
+  
+  /**
+   * Closes the sidebar on mobile
+   */
+  closeSidebar(): void {
+    this.isSidebarOpen = false;
+    document.body.classList.remove('no-scroll');
+  }
+  
+  /**
+   * Handle sidebar collapse state changes
+   */
+  onSidebarCollapsedChange(isCollapsed: boolean): void {
+    this.isSidebarCollapsed = isCollapsed;
   }
 }

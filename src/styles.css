@@ -1,20 +1,14 @@
 /* Global Styles */
-@import url('./app/shared/styles/colors.css');
-@import url('./app/shared/styles/media-queries.css');
-
 :root {
-  /* Use the colors defined in colors.css */
-  --color-primary: var(--primary-dark);
-  --color-secondary: var(--primary);
-  --color-tertiary: var(--primary-light);
-  --color-dark: var(--text-dark);
+  --color-primary: #FF6701;
+  --color-secondary: #FEA82F;
+  --color-tertiary: #FF6500;
+  --color-dark: #2F2519;
   --color-darkest: #0B0300;
-  --color-background: var(--background);
-  --color-text: var(--text-dark);
-  --color-text-light: var(--text-light);
-  --color-shadow: var(--overlay-light);
-  
-  /* Layout variables */
+  --color-background: #FFC288;
+  --color-text: #2F2519;
+  --color-text-light: #0B0300;
+  --color-shadow: rgba(0, 0, 0, 0.1);
   --border-radius: 8px;
   --spacing-xs: 4px;
   --spacing-sm: 8px;
