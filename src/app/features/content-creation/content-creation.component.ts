@@ -59,7 +59,7 @@ export class ContentCreationComponent implements OnInit {
   selectedScheduleDate: string = '';
   selectedScheduleTime: string = '';
   username: string = 'yourhandle';
-  profileImage: string = 'assets/images/default-profile.png';
+  profileImage: string = 'assets/images/default-profile.svg';
   
   // Form state
   mediaFiles: File[] = [];

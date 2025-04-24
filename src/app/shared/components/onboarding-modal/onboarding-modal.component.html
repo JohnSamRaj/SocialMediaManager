@@ -1,0 +1,43 @@
+<div class="onboarding-modal-overlay" *ngIf="isVisible" (click)="skipOnboarding()">
+  <div class="onboarding-modal" (click)="$event.stopPropagation()">
+    <div class="onboarding-header">
+      <h2>{{ steps[currentStep].title }}</h2>
+      <button class="close-button" (click)="skipOnboarding()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    
+    <div class="onboarding-content">
+      <div class="onboarding-image" *ngIf="steps[currentStep].image">
+        <img [src]="steps[currentStep].image" alt="Onboarding illustration">
+      </div>
+      <p>{{ steps[currentStep].content }}</p>
+    </div>
+    
+    <div class="onboarding-footer">
+      <div class="onboarding-progress">
+        <div class="progress-dots">
+          <span 
+            *ngFor="let step of steps; let i = index" 
+            class="progress-dot"
+            [ngClass]="{'active': i === currentStep}">
+          </span>
+        </div>
+      </div>
+      
+      <div class="onboarding-actions">
+        <button 
+          *ngIf="currentStep > 0" 
+          class="btn btn-secondary" 
+          (click)="prevStep()">
+          Previous
+        </button>
+        <button 
+          class="btn btn-primary" 
+          (click)="nextStep()">
+          {{ currentStep === steps.length - 1 ? 'Finish' : 'Next' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

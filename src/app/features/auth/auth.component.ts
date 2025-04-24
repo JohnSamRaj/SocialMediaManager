@@ -100,8 +100,9 @@ export class AuthComponent {
       password: this.registerForm.value.password
     }).subscribe({
       next: () => {
-        // Mark as a new user who should see the tour
+        // Mark as a new user who should see the tour and onboarding
         localStorage.removeItem('tour_completed');
+        localStorage.removeItem('hasCompletedOnboarding');
         this.router.navigate([this.returnUrl]);
       },
       error: (error) => {
@@ -119,7 +120,18 @@ export class AuthComponent {
     this.errorMessage = '';
 
     this.authService.loginWithGoogle().subscribe({
-      next: () => {
+      next: (user) => {
+        // If this is a new user (we can check by looking at createdAt date being close to lastLogin)
+        if (user.createdAt && user.lastLogin) {
+          const createdDate = new Date(user.createdAt);
+          const loginDate = new Date(user.lastLogin);
+          // If account was created less than 10 seconds before login, it's a new registration
+          if ((loginDate.getTime() - createdDate.getTime()) < 10000) {
+            // New user - show onboarding
+            localStorage.removeItem('tour_completed');
+            localStorage.removeItem('hasCompletedOnboarding');
+          }
+        }
         this.router.navigate([this.returnUrl]);
       },
       error: (error) => {
@@ -137,7 +149,18 @@ export class AuthComponent {
     this.errorMessage = '';
 
     this.authService.loginWithApple().subscribe({
-      next: () => {
+      next: (user) => {
+        // If this is a new user (we can check by looking at createdAt date being close to lastLogin)
+        if (user.createdAt && user.lastLogin) {
+          const createdDate = new Date(user.createdAt);
+          const loginDate = new Date(user.lastLogin);
+          // If account was created less than 10 seconds before login, it's a new registration
+          if ((loginDate.getTime() - createdDate.getTime()) < 10000) {
+            // New user - show onboarding
+            localStorage.removeItem('tour_completed');
+            localStorage.removeItem('hasCompletedOnboarding');
+          }
+        }
         this.router.navigate([this.returnUrl]);
       },
       error: (error) => {

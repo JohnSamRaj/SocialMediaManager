@@ -28,11 +28,78 @@
   cursor: pointer;
   font-weight: 500;
   color: var(--color-primary);
+  position: relative;
 }
 
-.platform-selector i.fa-instagram {
+.platform-selector i.fa-instagram, 
+.platform-selector i.fa-th-large {
   font-size: 1.5rem;
   margin-left: 0.25rem;
+}
+
+.dropdown-arrow {
+  font-size: 0.8rem;
+  transition: transform 0.3s ease;
+  margin-left: 0.3rem;
+}
+
+.dropdown-arrow.rotated {
+  transform: rotate(180deg);
+}
+
+/* Platform Dropdown Menu Styles */
+.platform-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 200px;
+  background-color: var(--color-darkest);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--border-radius);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  z-index: 10;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+  margin-top: 0.5rem;
+}
+
+.platform-dropdown.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.dropdown-option {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.dropdown-option:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--color-primary);
+}
+
+.dropdown-option.add-account {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: 0.25rem;
+  padding-top: 0.75rem;
+}
+
+.dropdown-option i {
+  width: 20px;
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+.dropdown-option.add-account i {
+  color: var(--color-primary);
 }
 
 .toggle-btn {
@@ -147,6 +214,7 @@
   .sidebar.show {
     transform: translateX(0);
     animation: slideIn 0.3s ease;
+    display: block !important;
   }
   
   .sidebar.collapsed {

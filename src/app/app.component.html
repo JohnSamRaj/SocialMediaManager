@@ -7,7 +7,7 @@
   </app-header>
   
   <div class="content-wrapper">
-    <app-sidebar *ngIf="authService.isLoggedIn()" [ngClass]="{'show': isSidebarOpen}" (closeMobileSidebar)="toggleSidebar()"></app-sidebar>
+    <app-sidebar *ngIf="authService.isLoggedIn()" [ngClass]="{'show': isSidebarOpen}" (closeMobileSidebar)="toggleSidebar()" (addAccountClicked)="openAddPlatformModal()"></app-sidebar>
     <div class="sidebar-overlay" [ngClass]="{'active': isSidebarOpen}" (click)="toggleSidebar()"></div>
     
     <main class="main-content">
@@ -20,4 +20,10 @@
   
   <!-- Toast Messages -->
   <app-toast-message></app-toast-message>
+  
+  <!-- Add Platform Modal -->
+  <app-add-platform-modal></app-add-platform-modal>
+  
+  <!-- Onboarding Modal -->
+  <app-onboarding-modal></app-onboarding-modal>
 </div>

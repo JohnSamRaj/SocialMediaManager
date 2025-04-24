@@ -18,7 +18,15 @@ interface NavItem {
 })
 export class SidebarComponent {
   isCollapsed = false;
+  showPlatformDropdown = false;
+  selectedPlatform = 'instagram'; // Default to Instagram
+  
+  get platformDisplayName(): string {
+    return this.selectedPlatform === 'all' ? 'All Platforms' : 'Instagram';
+  }
+  
   @Output() closeMobileSidebar = new EventEmitter<void>();
+  @Output() addAccountClicked = new EventEmitter<void>();
   
   navItems: NavItem[] = [
     { label: 'Dashboard', icon: 'fa-chart-pie', route: '/dashboard', active: false },
@@ -58,5 +66,40 @@ export class SidebarComponent {
   // Handle closing the sidebar with close button on mobile
   closeSidebar(): void {
     this.closeMobileSidebar.emit();
+  }
+  
+  // Toggle platform selection dropdown
+  togglePlatformDropdown(): void {
+    if (!this.isCollapsed) {
+      this.showPlatformDropdown = !this.showPlatformDropdown;
+    }
+  }
+  
+  // Select a platform from the dropdown
+  selectPlatform(platform: string): void {
+    this.selectedPlatform = platform;
+    this.showPlatformDropdown = false;
+  }
+  
+  // Show the add account popup
+  showAddAccount(): void {
+    this.addAccountClicked.emit();
+    this.showPlatformDropdown = false;
+  }
+  
+  // Close the dropdown when clicking outside
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent): void {
+    const platformSelector = document.querySelector('.platform-selector');
+    const platformDropdown = document.querySelector('.platform-dropdown');
+    
+    if (platformSelector && platformDropdown) {
+      const clickedInside = platformSelector.contains(event.target as Node) || 
+                            platformDropdown.contains(event.target as Node);
+      
+      if (!clickedInside && this.showPlatformDropdown) {
+        this.showPlatformDropdown = false;
+      }
+    }
   }
 }

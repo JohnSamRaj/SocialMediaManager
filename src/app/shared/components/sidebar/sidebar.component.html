@@ -1,8 +1,26 @@
 <aside class="sidebar" [class.collapsed]="isCollapsed">
   <div class="sidebar-header">
-    <div class="platform-selector">
-      <i class="fab fa-instagram"></i>
-      <span *ngIf="!isCollapsed">Instagram</span>
+    <div class="platform-selector" (click)="togglePlatformDropdown()">
+      <i class="fab fa-instagram" *ngIf="selectedPlatform === 'instagram'"></i>
+      <i class="fas fa-th-large" *ngIf="selectedPlatform === 'all'"></i>
+      <span *ngIf="!isCollapsed">{{ platformDisplayName }}</span>
+      <i *ngIf="!isCollapsed" class="fas fa-chevron-down dropdown-arrow" [class.rotated]="showPlatformDropdown"></i>
+    </div>
+    
+    <!-- Platform dropdown menu -->
+    <div class="platform-dropdown" [class.show]="showPlatformDropdown && !isCollapsed">
+      <div class="dropdown-option" (click)="selectPlatform('all')">
+        <i class="fas fa-th-large"></i>
+        <span>All Platforms</span>
+      </div>
+      <div class="dropdown-option" (click)="selectPlatform('instagram')">
+        <i class="fab fa-instagram"></i>
+        <span>Instagram</span>
+      </div>
+      <div class="dropdown-option add-account" (click)="showAddAccount()">
+        <i class="fas fa-plus-circle"></i>
+        <span>Add Account</span>
+      </div>
     </div>
     
     <!-- Desktop collapse button -->

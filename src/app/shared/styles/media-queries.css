@@ -1,0 +1,31 @@
+/* Media Query Mixins for Responsive Design */
+
+/* Extra Small Devices (Portrait phones) */
+@media (max-width: 575.98px) {
+  /* XS device styles */
+}
+
+/* Small Devices (Landscape phones) */
+@media (min-width: 576px) and (max-width: 767.98px) {
+  /* SM device styles */
+}
+
+/* Medium Devices (Tablets) */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  /* MD device styles */
+}
+
+/* Large Devices (Desktops) */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  /* LG device styles */
+}
+
+/* Extra Large Devices (Large Desktops) */
+@media (min-width: 1200px) {
+  /* XL device styles */
+}
+
+/* Custom breakpoint for sidebar toggle */
+@media (max-width: 768px) {
+  /* Mobile sidebar styles */
+}

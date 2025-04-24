@@ -1,0 +1,43 @@
+<div class="modal-container" [class.visible]="isVisible">
+  <div class="modal-overlay" (click)="hide()"></div>
+  
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Connect a Platform</h2>
+      <button class="close-btn" (click)="hide()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    
+    <div class="modal-body">
+      <p class="modal-description">
+        Select a social media platform to connect to your dashboard.
+      </p>
+      
+      <div class="platform-grid">
+        <div 
+          *ngFor="let platform of platformOptions" 
+          class="platform-card"
+          [class.available]="platform.available"
+          [class.unavailable]="!platform.available"
+          (click)="platform.available && connectPlatform(platform.id)"
+        >
+          <div class="platform-icon">
+            <i [class]="platform.icon"></i>
+          </div>
+          <div class="platform-details">
+            <h3>{{ platform.name }}</h3>
+            <p>{{ platform.description }}</p>
+          </div>
+          <div class="platform-status" *ngIf="!platform.available">
+            <span>Coming Soon</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="modal-footer">
+      <button class="btn-secondary" (click)="hide()">Cancel</button>
+    </div>
+  </div>
+</div>
