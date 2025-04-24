@@ -18,7 +18,8 @@
 }
 
 .title-section p {
-  color: var(--color-tertiary);
+  font-weight: 700;
+  color: var(--color-dark);
 }
 
 .timeframe-selector {
@@ -28,7 +29,8 @@
 }
 
 .timeframe-selector label {
-  font-weight: 500;
+  padding-top: 7px;
+  font-weight: 700;
   color: var(--color-dark);
 }
 
@@ -103,7 +105,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--color-primary);
+  color: var(--color-secondary);
   font-size: 1.25rem;
 }
 
@@ -114,12 +116,12 @@
 
 .stat-card:nth-child(3) .stat-icon {
   background-color: rgba(140, 92, 123, 0.15);
-  color: var(--color-tertiary);
+  color: var(--color-secondary);
 }
 
 .stat-card:nth-child(4) .stat-icon {
   background-color: rgba(86, 59, 76, 0.15);
-  color: var(--color-dark);
+  color: var(--color-secondary);
 }
 
 .stat-info {
@@ -187,11 +189,11 @@
 
 .best-time {
   padding: var(--spacing-xs) var(--spacing-sm);
-  background-color: rgba(76, 217, 100, 0.1);
+  background-color: rgba(26, 87, 35, 0.088);
   color: #4cd964;
   border-radius: 20px;
   font-size: 0.85rem;
-  font-weight: 500;
+  font-weight: 700;
 }
 
 /* Audience Demographics */
@@ -401,7 +403,7 @@
   .charts-row, .demographics-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .chart-container {
     min-height: 350px;
   }
@@ -413,23 +415,23 @@
     align-items: flex-start;
     gap: var(--spacing-md);
   }
-  
+
   .overview-stats {
     grid-template-columns: 1fr 1fr;
   }
-  
+
   .chart-container {
     min-height: 300px;
     min-width: 300px;
     margin-bottom: var(--spacing-md);
   }
-  
+
   .chart-header {
     flex-direction: column;
     align-items: flex-start;
     gap: var(--spacing-xs);
   }
-  
+
   .demographics-grid {
     gap: var(--spacing-lg);
   }
@@ -439,18 +441,18 @@
   .overview-stats {
     grid-template-columns: 1fr;
   }
-  
+
   .chart-container {
     min-height: 250px;
     padding: var(--spacing-sm);
   }
-  
+
   /* Make sure charts don't get too small on mobile */
   .chart-container canvas {
     min-width: 250px !important;
     height: auto !important;
   }
-  
+
   .gender-chart {
     height: 150px;
   }

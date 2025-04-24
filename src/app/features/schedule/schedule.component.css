@@ -18,7 +18,8 @@
 }
 
 .title-section p {
-  color: var(--color-tertiary);
+  font-weight: 700;
+  color: var(--color-dark);
 }
 
 .actions {

@@ -16,7 +16,8 @@
 }
 
 .welcome-section p {
-  color: var(--color-tertiary);
+  font-weight: 700;
+  color: var(--color-dark);;
   font-size: 1rem;
 }
 
@@ -64,7 +65,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--color-primary);
+  color: var(--color-secondary);
   font-size: 1.25rem;
 }
 
@@ -75,12 +76,12 @@
 
 .stat-card:nth-child(3) .stat-icon {
   background-color: rgba(140, 92, 123, 0.15);
-  color: var(--color-tertiary);
+  color: var(--color-secondary);
 }
 
 .stat-card:nth-child(4) .stat-icon {
   background-color: rgba(86, 59, 76, 0.15);
-  color: var(--color-dark);
+  color: var(--color-secondary);
 }
 
 .stat-info h3 {
@@ -97,7 +98,7 @@
   margin: var(--spacing-xs) 0 0 0;
 }
 
-/* Charts Section */
+/* Charts Section
 .charts-section {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
@@ -129,7 +130,7 @@
 
 .chart-period {
   font-size: 0.85rem;
-  color: var(--color-tertiary);
+  color: var(--color-darkest);
   opacity: 0.8;
 }
 
@@ -146,7 +147,7 @@
 .empty-chart i {
   font-size: 3rem;
   margin-bottom: var(--spacing-md);
-}
+} */
 
 /* Content Sections */
 .content-section {
@@ -174,7 +175,7 @@
 }
 
 .view-all:hover {
-  color: var(--color-secondary);
+  color: var(--color-dark);;
   text-decoration: underline;
 }
 
@@ -268,21 +269,21 @@
     align-items: flex-start;
     gap: var(--spacing-md);
   }
-  
+
   .charts-section {
     grid-template-columns: 1fr;
   }
-  
+
   .stats-overview {
     grid-template-columns: repeat(2, 1fr);
   }
-  
+
   .chart-card {
     min-height: 300px;
     min-width: 300px;
     margin-bottom: var(--spacing-md);
   }
-  
+
   .chart-header {
     flex-direction: column;
     align-items: flex-start;
@@ -294,16 +295,16 @@
   .stats-overview {
     grid-template-columns: 1fr;
   }
-  
+
   .posts-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .chart-card {
     min-height: 250px;
     padding: var(--spacing-sm);
   }
-  
+
   /* Make sure charts don't get too small on mobile */
   .chart-card canvas {
     min-width: 250px !important;

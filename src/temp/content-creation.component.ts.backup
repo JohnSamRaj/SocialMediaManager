@@ -58,8 +58,6 @@ export class ContentCreationComponent implements OnInit {
   allDrafts: Post[] = [];
   selectedScheduleDate: string = '';
   selectedScheduleTime: string = '';
-  username: string = 'yourhandle';
-  profileImage: string = 'assets/images/default-profile.png';
   
   // Form state
   mediaFiles: File[] = [];
@@ -76,15 +74,10 @@ export class ContentCreationComponent implements OnInit {
     private route: ActivatedRoute,
     private toastService: ToastService
   ) { 
-    // Set user ID and username from service
+    // Set user ID from service
     const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
-    if (currentUser) {
-      if (currentUser.id) {
-        this.newPost.userId = currentUser.id;
-      }
-      if (currentUser.fullName) {
-        this.username = currentUser.fullName.split(' ')[0].toLowerCase();
-      }
+    if (currentUser && currentUser.id) {
+      this.newPost.userId = currentUser.id;
     }
   }
   
@@ -353,7 +346,7 @@ export class ContentCreationComponent implements OnInit {
         }).subscribe({
           next: () => {
             this.isSaving = false;
-            this.toastService.success('Post scheduled successfully');
+            alert('Post scheduled successfully');
             this.resetForm();
           },
           error: (err) => {
@@ -366,7 +359,7 @@ export class ContentCreationComponent implements OnInit {
         this.instagramService.createPost(this.newPost).subscribe({
           next: () => {
             this.isSaving = false;
-            this.toastService.success('Post scheduled successfully');
+            alert('Post scheduled successfully');
             this.resetForm();
           },
           error: (err) => {
@@ -393,7 +386,7 @@ export class ContentCreationComponent implements OnInit {
             this.instagramService.publishPost(updatedPost.id).subscribe({
               next: () => {
                 this.isSaving = false;
-                this.toastService.success('Post published successfully');
+                alert('Post published successfully');
                 this.resetForm();
               },
               error: (err) => {
@@ -415,7 +408,7 @@ export class ContentCreationComponent implements OnInit {
             this.instagramService.publishPost(newPost.id).subscribe({
               next: () => {
                 this.isSaving = false;
-                this.toastService.success('Post published successfully');
+                alert('Post published successfully');
                 this.resetForm();
               },
               error: (err) => {

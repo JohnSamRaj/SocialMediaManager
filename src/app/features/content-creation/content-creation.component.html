@@ -42,6 +42,18 @@
   <!-- Create Content Tab -->
   <div class="create-content" *ngIf="currentTab === 'create' && !isLoading">
     <div class="content-form">
+      <!-- Instagram Preview -->
+      <div class="form-section post-preview-section">
+        <h3>Post Preview</h3>
+        <app-instagram-preview
+          [caption]="newPost.caption"
+          [hashtags]="newPost.hashtags"
+          [mediaItems]="newPost.mediaItems"
+          [username]="username"
+          [userProfileImage]="profileImage"
+        ></app-instagram-preview>
+      </div>
+
       <!-- Media Upload Section -->
       <div class="form-section">
         <h3>Media</h3>

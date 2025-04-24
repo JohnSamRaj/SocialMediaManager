@@ -30,7 +30,7 @@
 }
 
 .calendar-day-header {
-  background-color: var(--color-background);
+  background-color: #fff;
   padding: 0.75rem 0.5rem;
   text-align: center;
   font-weight: 500;
@@ -162,7 +162,7 @@
   .calendar-day {
     min-height: 80px;
   }
-  
+
   .day-post {
     padding: 0.1rem 0.25rem;
     font-size: 0.7rem;

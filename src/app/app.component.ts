@@ -4,6 +4,7 @@ import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './shared/components/header/header.component';
 import { SidebarComponent } from './shared/components/sidebar/sidebar.component';
 import { TourComponent } from './shared/components/tour/tour.component';
+import { ToastMessageComponent } from './shared/components/toast-message/toast-message.component';
 import { AuthService } from './core/auth/auth.service';
 import { TourService } from './core/services/tour.service';
 
@@ -15,7 +16,8 @@ import { TourService } from './core/services/tour.service';
     RouterOutlet,
     HeaderComponent,
     SidebarComponent,
-    TourComponent
+    TourComponent,
+    ToastMessageComponent
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']

@@ -1,13 +1,13 @@
 /* Global Styles */
 :root {
-  --color-primary: #F14F0A;
-  --color-secondary: #F27E0A;
-  --color-tertiary: #F2A10A;
-  --color-dark: #F2D70A;
-  --color-darkest: #333333;
-  --color-background: #EDEACC;
-  --color-text: #333333;
-  --color-text-light: #FFFFFF;
+  --color-primary: #FF6701;
+  --color-secondary: #FEA82F;
+  --color-tertiary: #FF6500;
+  --color-dark: #2F2519;
+  --color-darkest: #0B0300;
+  --color-background: #FFC288;
+  --color-text: #2F2519;
+  --color-text-light: #0B0300;
   --color-shadow: rgba(0, 0, 0, 0.1);
   --border-radius: 8px;
   --spacing-xs: 4px;
@@ -16,7 +16,7 @@
   --spacing-lg: 24px;
   --spacing-xl: 32px;
   --transition-normal: all 0.3s ease;
-  --font-family: 'Poppins', sans-serif;
+  --font-family: 'Inter', sans-serif;
 }
 
 * {
@@ -64,12 +64,12 @@ button {
 }
 
 .btn-secondary {
-  background-color: var(--color-tertiary);
+  background-color: var(--color-secondary);
   color: var(--color-text-light);
 }
 
 .btn-secondary:hover {
-  background-color: var(--color-dark);
+  background-color: var(--color-primary);
   transform: translateY(-2px);
   box-shadow: 0 4px 8px var(--color-shadow);
 }
@@ -121,7 +121,7 @@ input, textarea, select {
 input:focus, textarea:focus, select:focus {
   outline: none;
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 2px rgba(241, 79, 10, 0.3);
+  box-shadow: 0 0 0 2px rgba(247, 158, 216, 0.3);
 }
 
 label {

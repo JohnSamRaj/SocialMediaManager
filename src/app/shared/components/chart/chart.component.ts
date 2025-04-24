@@ -36,18 +36,18 @@ export class ChartComponent implements AfterViewInit {
         legend: {
           labels: {
             font: {
-              family: 'Poppins, sans-serif'
+              family: 'Inter, sans-serif'
             }
           }
         },
         tooltip: {
           backgroundColor: 'rgba(32, 26, 30, 0.8)',
           titleFont: {
-            family: 'Poppins, sans-serif',
+            family: 'Inter, sans-serif',
             size: 14
           },
           bodyFont: {
-            family: 'Poppins, sans-serif',
+            family: 'Inter, sans-serif',
             size: 13
           },
           padding: 10,
@@ -61,7 +61,7 @@ export class ChartComponent implements AfterViewInit {
           },
           ticks: {
             font: {
-              family: 'Poppins, sans-serif'
+              family: 'Inter, sans-serif'
             }
           }
         },
@@ -71,7 +71,7 @@ export class ChartComponent implements AfterViewInit {
           },
           ticks: {
             font: {
-              family: 'Poppins, sans-serif'
+              family: 'Inter, sans-serif'
             }
           }
         }
@@ -80,11 +80,11 @@ export class ChartComponent implements AfterViewInit {
     
     // Apply brand colors
     const brandColors = [
-      '#F14F0A',
-      '#F27E0A',
-      '#F2A10A',
-      '#F2D70A',
-      '#EDEACC'
+      '#FF6701',
+      '#FEA82F',
+      '#FF6500',
+      '#FFC288',
+      '#0B0300'
     ];
     
     // Set default colors if not provided

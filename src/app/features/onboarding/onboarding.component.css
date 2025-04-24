@@ -154,7 +154,8 @@
 }
 
 .help-header p {
-  color: var(--color-tertiary);
+  font-weight: 700;
+  color: var(--color-dark);
   font-size: 1.1rem;
 }
 

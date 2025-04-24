@@ -6,7 +6,7 @@ import { AuthService } from '../../core/auth/auth.service';
 import { TourService } from '../../core/services/tour.service';
 import { Post, PostStatus } from '../../core/models/post.model';
 import { PostCardComponent } from '../../shared/components/post-card/post-card.component';
-import { ChartComponent } from '../../shared/components/chart/chart.component';
+// import { ChartComponent } from '../../shared/components/chart/chart.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,7 +15,7 @@ import { ChartComponent } from '../../shared/components/chart/chart.component';
     CommonModule,
     RouterModule,
     PostCardComponent,
-    ChartComponent
+    // ChartComponent
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
@@ -25,38 +25,38 @@ export class DashboardComponent implements OnInit {
   recentPosts: Post[] = [];
   draftPosts: Post[] = [];
   scheduledPosts: Post[] = [];
-  
+
   engagementData: any = {};
   growthData: any = {};
-  
+
   isLoading = true;
   error: string | null = null;
-  
+
   // For enum access in template
   PostStatus = PostStatus;
-  
+
   constructor(
     private instagramService: InstagramService,
     public authService: AuthService,
     private tourService: TourService
   ) { }
-  
+
   // Helper methods for the template
   getScheduledPostsCount(): number {
     return this.posts.filter(post => post.status === PostStatus.SCHEDULED).length;
   }
-  
+
   getDraftPostsCount(): number {
     return this.posts.filter(post => post.status === PostStatus.DRAFT).length;
   }
-  
+
   getPublishedPostsCount(): number {
     return this.posts.filter(post => post.status === PostStatus.PUBLISHED).length;
   }
 
   ngOnInit(): void {
     this.loadDashboardData();
-    
+
     // Start the tour for first-time users after a slight delay to ensure elements are loaded
     setTimeout(() => {
       if (!this.tourService.hasCompletedTour()) {
@@ -67,7 +67,7 @@ export class DashboardComponent implements OnInit {
 
   loadDashboardData(): void {
     this.isLoading = true;
-    
+
     // Load posts
     this.instagramService.getPosts().subscribe({
       next: (posts) => {
@@ -79,11 +79,11 @@ export class DashboardComponent implements OnInit {
             (new Date(a.publishedAt || 0)).getTime()
           )
           .slice(0, 4);
-        
+
         this.draftPosts = posts
           .filter(post => post.status === PostStatus.DRAFT)
           .slice(0, 3);
-        
+
         this.scheduledPosts = posts
           .filter(post => post.status === PostStatus.SCHEDULED)
           .sort((a, b) => 
@@ -91,7 +91,7 @@ export class DashboardComponent implements OnInit {
             (new Date(b.scheduledFor || 0)).getTime()
           )
           .slice(0, 3);
-          
+
         this.loadAnalytics();
       },
       error: (err) => {
@@ -101,7 +101,7 @@ export class DashboardComponent implements OnInit {
       }
     });
   }
-  
+
   loadAnalytics(): void {
     this.instagramService.getInstagramInsights().subscribe({
       next: (analytics) => {
@@ -109,46 +109,46 @@ export class DashboardComponent implements OnInit {
         const dates = analytics.engagementMetrics.slice(-14).map((metric: any) => 
           new Date(metric.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
         );
-        
+
         const engagementRates = analytics.engagementMetrics.slice(-14).map((metric: any) => 
           metric.engagementRate.toFixed(2)
         );
-        
+
         this.engagementData = {
           labels: dates,
           datasets: [
             {
               label: 'Engagement Rate (%)',
               data: engagementRates,
-              borderColor: '#f79ed8',
-              backgroundColor: 'rgba(247, 158, 216, 0.2)',
+              borderColor: '#FF6701',
+              backgroundColor: '#FFC288',
               tension: 0.4,
               fill: true
             }
           ]
         };
-        
+
         // Prepare followers growth data
         const growthDates = analytics.accountGrowth.slice(-7).map((growth: any) => 
           new Date(growth.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
         );
-        
+
         const followersCount = analytics.accountGrowth.slice(-7).map((growth: any) => 
           growth.followers
         );
-        
+
         this.growthData = {
           labels: growthDates,
           datasets: [
             {
               label: 'Followers',
               data: followersCount,
-              backgroundColor: '#8c5c7b',
+              backgroundColor: '#FFC288',
               borderRadius: 6
             }
           ]
         };
-        
+
         this.isLoading = false;
       },
       error: (err) => {
@@ -158,12 +158,12 @@ export class DashboardComponent implements OnInit {
       }
     });
   }
-  
+
   handleEdit(post: Post): void {
     // Navigate to edit post
     window.location.href = `/content-creation?id=${post.id}`;
   }
-  
+
   handleDelete(post: Post): void {
     this.instagramService.deletePost(post.id).subscribe({
       next: (success) => {
@@ -176,7 +176,7 @@ export class DashboardComponent implements OnInit {
       }
     });
   }
-  
+
   handlePublish(post: Post): void {
     this.instagramService.publishPost(post.id).subscribe({
       next: (updatedPost) => {
@@ -187,7 +187,7 @@ export class DashboardComponent implements OnInit {
       }
     });
   }
-  
+
   handleSchedule(data: { post: Post, date: Date }): void {
     this.instagramService.schedulePost(data.post.id, data.date).subscribe({
       next: (updatedPost) => {
